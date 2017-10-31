@@ -7,21 +7,57 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A239231F5351AA35ECDA8614 /* Pods_EZWifi.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 30722D1CEECFD904D396D3E9 /* Pods_EZWifi.framework */; };
+		D80B3F2E1FA531310010D3B7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D80B3F2D1FA531310010D3B7 /* GoogleService-Info.plist */; };
+		D80B3F311FA531CE0010D3B7 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F301FA531CE0010D3B7 /* LogInViewController.swift */; };
+		D80B3F331FA531DE0010D3B7 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F321FA531DE0010D3B7 /* SignUpViewController.swift */; };
+		D80B3F391FA533050010D3B7 /* CurrentUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F381FA533050010D3B7 /* CurrentUser.swift */; };
+		D80B3F3B1FA535100010D3B7 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3A1FA535100010D3B7 /* Wifi.swift */; };
+		D80B3F3D1FA536600010D3B7 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3C1FA536600010D3B7 /* Strings.swift */; };
+		D80B3F401FA5454B0010D3B7 /* WifiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */; };
+		D80B3F441FA547CA0010D3B7 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */; };
 		D81786821F92E86A00795B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81786811F92E86A00795B5E /* AppDelegate.swift */; };
-		D81786841F92E86A00795B5E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81786831F92E86A00795B5E /* ViewController.swift */; };
 		D81786871F92E86A00795B5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D81786851F92E86A00795B5E /* Main.storyboard */; };
 		D81786891F92E86A00795B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D81786881F92E86A00795B5E /* Assets.xcassets */; };
 		D817868C1F92E86A00795B5E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D817868A1F92E86A00795B5E /* LaunchScreen.storyboard */; };
+		D81786941F92E9EB00795B5E /* QRReaderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81786931F92E9EB00795B5E /* QRReaderViewController.swift */; };
+		D83AB4CA1F93099600BC8B62 /* ExternalAccessory.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D83AB4C91F93099600BC8B62 /* ExternalAccessory.framework */; };
+		D83EC69E1FA59A3D000A2EA4 /* WifiTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D83EC69D1FA59A3D000A2EA4 /* WifiTableViewCell.swift */; };
+		D83EC6A81FA8440F000A2EA4 /* Nunito_Sans in Resources */ = {isa = PBXBuildFile; fileRef = D83EC6A71FA8440E000A2EA4 /* Nunito_Sans */; };
+		D83EC6AA1FA84441000A2EA4 /* Nunito in Resources */ = {isa = PBXBuildFile; fileRef = D83EC6A91FA84440000A2EA4 /* Nunito */; };
+		D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */; };
+		D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */; };
+		D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		30722D1CEECFD904D396D3E9 /* Pods_EZWifi.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZWifi.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		804E02725273BE47231CF8CF /* Pods-EZWifi.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZWifi.release.xcconfig"; path = "Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi.release.xcconfig"; sourceTree = "<group>"; };
+		8823F97C24AFBE3243829763 /* Pods-EZWifi.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZWifi.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi.debug.xcconfig"; sourceTree = "<group>"; };
+		D80B3F281FA52CD80010D3B7 /* SwiftHTTP.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = SwiftHTTP.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D80B3F2D1FA531310010D3B7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D80B3F301FA531CE0010D3B7 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
+		D80B3F321FA531DE0010D3B7 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
+		D80B3F381FA533050010D3B7 /* CurrentUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentUser.swift; sourceTree = "<group>"; };
+		D80B3F3A1FA535100010D3B7 /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
+		D80B3F3C1FA536600010D3B7 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
+		D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewController.swift; sourceTree = "<group>"; };
+		D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		D817867E1F92E86A00795B5E /* EZWifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZWifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81786811F92E86A00795B5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		D81786831F92E86A00795B5E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		D81786861F92E86A00795B5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		D81786881F92E86A00795B5E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D817868B1F92E86A00795B5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D817868D1F92E86A00795B5E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D81786931F92E9EB00795B5E /* QRReaderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRReaderViewController.swift; sourceTree = "<group>"; };
+		D83AB4C91F93099600BC8B62 /* ExternalAccessory.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ExternalAccessory.framework; path = System/Library/Frameworks/ExternalAccessory.framework; sourceTree = SDKROOT; };
+		D83AB4CB1F93099600BC8B62 /* EZWifi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = EZWifi.entitlements; sourceTree = "<group>"; };
+		D83EC69D1FA59A3D000A2EA4 /* WifiTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiTableViewCell.swift; sourceTree = "<group>"; };
+		D83EC6A71FA8440E000A2EA4 /* Nunito_Sans */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Nunito_Sans; sourceTree = "<group>"; };
+		D83EC6A91FA84440000A2EA4 /* Nunito */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Nunito; sourceTree = "<group>"; };
+		D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
+		D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCBBarCodeGenerator.swift; sourceTree = "<group>"; };
+		D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,17 +65,93 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A239231F5351AA35ECDA8614 /* Pods_EZWifi.framework in Frameworks */,
+				D80B3F441FA547CA0010D3B7 /* NetworkExtension.framework in Frameworks */,
+				D83AB4CA1F93099600BC8B62 /* ExternalAccessory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		11E65D4C00DCF12BD69950E8 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				8823F97C24AFBE3243829763 /* Pods-EZWifi.debug.xcconfig */,
+				804E02725273BE47231CF8CF /* Pods-EZWifi.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		75D5BAFE5B9E891F4121619D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */,
+				D80B3F281FA52CD80010D3B7 /* SwiftHTTP.framework */,
+				D83AB4C91F93099600BC8B62 /* ExternalAccessory.framework */,
+				30722D1CEECFD904D396D3E9 /* Pods_EZWifi.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D80B3F2F1FA531B40010D3B7 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				D80B3F301FA531CE0010D3B7 /* LogInViewController.swift */,
+				D80B3F321FA531DE0010D3B7 /* SignUpViewController.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		D80B3F341FA5322A0010D3B7 /* App Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D81786811F92E86A00795B5E /* AppDelegate.swift */,
+				D817868A1F92E86A00795B5E /* LaunchScreen.storyboard */,
+			);
+			path = "App Utilities";
+			sourceTree = "<group>";
+		};
+		D80B3F351FA5329F0010D3B7 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				D80B3F3C1FA536600010D3B7 /* Strings.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		D80B3F361FA532A90010D3B7 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				D80B3F381FA533050010D3B7 /* CurrentUser.swift */,
+				D80B3F3A1FA535100010D3B7 /* Wifi.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D80B3F371FA532C70010D3B7 /* Tab Bar */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = "Tab Bar";
+			sourceTree = "<group>";
+		};
+		D80B3F3E1FA5452F0010D3B7 /* Wifi Table */ = {
+			isa = PBXGroup;
+			children = (
+				D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */,
+				D83EC69D1FA59A3D000A2EA4 /* WifiTableViewCell.swift */,
+			);
+			path = "Wifi Table";
+			sourceTree = "<group>";
+		};
 		D81786751F92E86A00795B5E = {
 			isa = PBXGroup;
 			children = (
 				D81786801F92E86A00795B5E /* EZWifi */,
 				D817867F1F92E86A00795B5E /* Products */,
+				11E65D4C00DCF12BD69950E8 /* Pods */,
+				75D5BAFE5B9E891F4121619D /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -54,14 +166,33 @@
 		D81786801F92E86A00795B5E /* EZWifi */ = {
 			isa = PBXGroup;
 			children = (
-				D81786811F92E86A00795B5E /* AppDelegate.swift */,
-				D81786831F92E86A00795B5E /* ViewController.swift */,
+				D8EA2FFB1FA84CD50019F0B9 /* Utilities */,
+				D83EC6A91FA84440000A2EA4 /* Nunito */,
+				D83EC6A71FA8440E000A2EA4 /* Nunito_Sans */,
+				D80B3F3E1FA5452F0010D3B7 /* Wifi Table */,
+				D80B3F361FA532A90010D3B7 /* Models */,
+				D80B3F351FA5329F0010D3B7 /* Constants */,
+				D80B3F2F1FA531B40010D3B7 /* Authentication */,
+				D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */,
+				D81786931F92E9EB00795B5E /* QRReaderViewController.swift */,
+				D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */,
+				D83AB4CB1F93099600BC8B62 /* EZWifi.entitlements */,
+				D80B3F371FA532C70010D3B7 /* Tab Bar */,
+				D80B3F341FA5322A0010D3B7 /* App Utilities */,
 				D81786851F92E86A00795B5E /* Main.storyboard */,
 				D81786881F92E86A00795B5E /* Assets.xcassets */,
-				D817868A1F92E86A00795B5E /* LaunchScreen.storyboard */,
+				D80B3F2D1FA531310010D3B7 /* GoogleService-Info.plist */,
 				D817868D1F92E86A00795B5E /* Info.plist */,
 			);
 			path = EZWifi;
+			sourceTree = "<group>";
+		};
+		D8EA2FFB1FA84CD50019F0B9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +202,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = D81786901F92E86A00795B5E /* Build configuration list for PBXNativeTarget "EZWifi" */;
 			buildPhases = (
+				0C835309BE3F540D8C2A036E /* [CP] Check Pods Manifest.lock */,
 				D817867A1F92E86A00795B5E /* Sources */,
 				D817867B1F92E86A00795B5E /* Frameworks */,
 				D817867C1F92E86A00795B5E /* Resources */,
+				1895373D7EE89D2517940F09 /* [CP] Embed Pods Frameworks */,
+				4CAEC4EBDF108D6129310407 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -97,6 +231,17 @@
 					D817867D1F92E86A00795B5E = {
 						CreatedOnToolsVersion = 9.0;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.HotspotConfiguration = {
+								enabled = 1;
+							};
+							com.apple.NetworkExtensions.iOS = {
+								enabled = 1;
+							};
+							com.apple.WAC = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -124,20 +269,111 @@
 			buildActionMask = 2147483647;
 			files = (
 				D817868C1F92E86A00795B5E /* LaunchScreen.storyboard in Resources */,
+				D83EC6AA1FA84441000A2EA4 /* Nunito in Resources */,
+				D80B3F2E1FA531310010D3B7 /* GoogleService-Info.plist in Resources */,
 				D81786891F92E86A00795B5E /* Assets.xcassets in Resources */,
 				D81786871F92E86A00795B5E /* Main.storyboard in Resources */,
+				D83EC6A81FA8440F000A2EA4 /* Nunito_Sans in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		0C835309BE3F540D8C2A036E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-EZWifi-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		1895373D7EE89D2517940F09 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
+				"${BUILT_PRODUCTS_DIR}/GoogleToolboxForMac/GoogleToolboxForMac.framework",
+				"${BUILT_PRODUCTS_DIR}/HxColor/HxColor.framework",
+				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftHash/SwiftHash.framework",
+				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
+				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleToolboxForMac.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/HxColor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4CAEC4EBDF108D6129310407 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${SRCROOT}/Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi-resources.sh",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseFacebookAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseGoogleAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebasePhoneAuthUI.bundle",
+				"$PODS_CONFIGURATION_BUILD_DIR/FirebaseUI/FirebaseTwitterAuthUI.bundle",
+				"${PODS_ROOT}/GoogleSignIn/Resources/GoogleSignIn.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterKitResources.bundle",
+				"${PODS_ROOT}/TwitterKit/iOS/TwitterKit.framework/TwitterShareExtensionUIResources.bundle",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		D817867A1F92E86A00795B5E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D81786841F92E86A00795B5E /* ViewController.swift in Sources */,
+				D80B3F331FA531DE0010D3B7 /* SignUpViewController.swift in Sources */,
+				D80B3F3D1FA536600010D3B7 /* Strings.swift in Sources */,
+				D81786941F92E9EB00795B5E /* QRReaderViewController.swift in Sources */,
+				D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */,
+				D83EC69E1FA59A3D000A2EA4 /* WifiTableViewCell.swift in Sources */,
+				D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */,
+				D80B3F3B1FA535100010D3B7 /* Wifi.swift in Sources */,
+				D80B3F311FA531CE0010D3B7 /* LogInViewController.swift in Sources */,
+				D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */,
+				D80B3F391FA533050010D3B7 /* CurrentUser.swift in Sources */,
 				D81786821F92E86A00795B5E /* AppDelegate.swift in Sources */,
+				D80B3F401FA5454B0010D3B7 /* WifiViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -272,14 +508,18 @@
 		};
 		D81786911F92E86A00795B5E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8823F97C24AFBE3243829763 /* Pods-EZWifi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EZWifi/EZWifi.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MFX4P5XWJN;
 				INFOPLIST_FILE = EZWifi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = EZTeam.EZWifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -287,14 +527,18 @@
 		};
 		D81786921F92E86A00795B5E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 804E02725273BE47231CF8CF /* Pods-EZWifi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = EZWifi/EZWifi.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = MFX4P5XWJN;
 				INFOPLIST_FILE = EZWifi/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = EZTeam.EZWifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
