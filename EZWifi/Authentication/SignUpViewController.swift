@@ -9,6 +9,10 @@
 import UIKit
 import FirebaseAuth
 
+protocol SignUpViewControllerDelegate {
+    func signUpSuccess(_ controller: SignUpViewController)
+    func goToLogIn(_ controller: SignUpViewController)
+}
 
 class SignUpViewController: UIViewController, UITextFieldDelegate {
     
@@ -18,7 +22,11 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
     
     @IBOutlet weak var passwordTextField: UITextField!
     
+    @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var passwordVerificationTextField: UITextField!
+    @IBOutlet weak var errorLabel: UILabel!
+    
+    var delegate: SignUpViewControllerDelegate?
     
     var userEmail = ""
     var userName = ""
@@ -32,10 +40,10 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         guard let verifiedPassword = passwordVerificationTextField.text else { return }
         
         if email == "" || password == "" || name == "" || verifiedPassword == "" {
-            let alertController = UIAlertController(title: "Form Error.", message: "Please fill in form completely.", preferredStyle: .alert)
-            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(defaultAction)
-            present(alertController, animated: true, completion: nil)
+//            let alertController = UIAlertController(title: "Form Error.", message: "Please fill in form completely.", preferredStyle: .alert)
+//            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//            alertController.addAction(defaultAction)
+//            present(alertController, animated: true, completion: nil)
         } else {
             Auth.auth().createUser(withEmail: email, password: password) { (user, error) in
                 if error == nil {
@@ -43,18 +51,22 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     changeRequest?.displayName = name
                     changeRequest?.commitChanges { error in
                         if error == nil {
-                            let alertController = UIAlertController(title: "Sign Up Sucessfully", message: "", preferredStyle: .alert)
-                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                            alertController.addAction(defaultAction)
-                            self.present(alertController, animated: true, completion: {
-                                self.performSegue(withIdentifier: segueSignUpToWifiPage, sender: self)
-                            })
+                            print("Signup success")
+                            self.delegate?.signUpSuccess(self)
+                            self.view.removeFromSuperview()
+//                            let alertController = UIAlertController(title: "Sign Up Sucessfully", message: "", preferredStyle: .alert)
+//                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                            alertController.addAction(defaultAction)
+//                            self.present(alertController, animated: true, completion: {
+//                                self.performSegue(withIdentifier: segueSignUpToWifiPage, sender: self)
+//                            })
                         }
                         else {
-                            let alertController = UIAlertController(title: "Sign Up Error", message: error?.localizedDescription, preferredStyle: .alert)
-                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                            alertController.addAction(defaultAction)
-                            self.present(alertController, animated: true, completion: nil)
+                            self.errorLabel.text = error?.localizedDescription
+//                            let alertController = UIAlertController(title: "Sign Up Error", message: error?.localizedDescription, preferredStyle: .alert)
+//                            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                            alertController.addAction(defaultAction)
+//                            self.present(alertController, animated: true, completion: nil)
                         }
                     }
                     // TO DO:
@@ -65,19 +77,26 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
                     // performing the segue.
                     
                 } else if password != verifiedPassword {
-                    let alertController = UIAlertController(title: "Verification Error.", message: "The two passwords do not match.", preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.passwordVerificationTextField.textColor = UIColor.red
-                    self.present(alertController, animated: true, completion: nil)
+                    self.errorLabel.text = "Oops! The two passwords do not match."
+//
+//                    let alertController = UIAlertController(title: "Verification Error.", message: "The two passwords do not match.", preferredStyle: .alert)
+//                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                    alertController.addAction(defaultAction)
+//                    self.passwordVerificationTextField.textColor = UIColor.red
+//                    self.present(alertController, animated: true, completion: nil)
                 } else {
-                    let alertController = UIAlertController(title: "Sign Up Error", message: error?.localizedDescription, preferredStyle: .alert)
-                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-                    alertController.addAction(defaultAction)
-                    self.present(alertController, animated: true, completion: nil)
+                    self.errorLabel.text = error?.localizedDescription
+//                    let alertController = UIAlertController(title: "Sign Up Error", message: error?.localizedDescription, preferredStyle: .alert)
+//                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
+//                    alertController.addAction(defaultAction)
+//                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         }
+    }
+    
+    @IBAction func logInPressed(_ sender: UIButton) {
+        self.delegate?.goToLogIn(self)
     }
     
     override func viewDidLoad() {
@@ -87,11 +106,51 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
         self.passwordTextField.delegate = self
         self.passwordVerificationTextField.delegate = self
         
+        self.signUpButton.isEnabled = false
+        self.signUpButton.backgroundColor = UIColor.lightGray
+        
+        self.nameTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        self.passwordVerificationTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        
         // Do any additional setup after loading the view.
-        self.nameTextField.becomeFirstResponder()
+//        self.nameTextField.becomeFirstResponder()
+    }
+    
+    @objc func textFieldsIsNotEmpty(sender: UITextField) {
+        
+        sender.text = sender.text?.trimmingCharacters(in: .whitespaces)
+        
+        guard
+            let name = self.nameTextField.text, !name.isEmpty,
+            let email = self.emailTextField.text, !email.isEmpty,
+            let password = self.passwordTextField.text, !password.isEmpty,
+            let passwordVerification = self.passwordVerificationTextField.text, !passwordVerification.isEmpty
+            else
+        {
+            self.signUpButton.isEnabled = false
+            self.signUpButton.backgroundColor = UIColor.lightGray
+            return
+        }
+        self.signUpButton.isEnabled = true
+        self.signUpButton.backgroundColor = UIColor(0x0000FF)
+    }
+    
+    // Hide keyboard when user touches outsite
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        self.view.endEditing(true)
+    }
+    
+    // Hide keyboard on pressing return
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        self.emailTextField.resignFirstResponder()
+        self.passwordTextField.resignFirstResponder()
+        return true
     }
 
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.errorLabel.text = ""
         return true
     }
     

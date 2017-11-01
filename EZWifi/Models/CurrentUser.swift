@@ -11,19 +11,10 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-var wifiList: [Wifi] = []
-
-func clearWifi() {
-    wifiList = []
-}
-
-func addWifiToList(wifi: Wifi) {
-    wifiList.append(wifi)
-}
-
 class CurrentUser {
     var username: String!
     var id: String!
+    var wifiList: [Wifi]!
     
     let dbRef = Database.database().reference()
     
@@ -31,6 +22,15 @@ class CurrentUser {
         let currentUser = Auth.auth().currentUser
         username = currentUser?.displayName
         id = currentUser?.uid
+        wifiList = []
+    }
+    
+    func clearWifi() {
+        wifiList = []
+    }
+    
+    func addWifiToList(wifi: Wifi) {
+        wifiList.append(wifi)
     }
     
     func getWifiFromIndexPath(indexPath: IndexPath) -> Wifi? {
@@ -52,21 +52,24 @@ class CurrentUser {
     func getWifi(completion: @escaping ([Wifi]?) -> Void) {
     
         var wifiArray: [Wifi] = []
-    
-        dbRef.child(id!).observeSingleEvent(of: .value, with: { snapshot -> Void in
-            if snapshot.exists() {
-                if let wifiMap = snapshot.value as? [String:AnyObject] {
-                    for wifiHash in wifiMap.keys {
-                        if let wifiDetails = wifiMap[wifiHash] as? [String: String] {
-                            let wifi = Wifi(username: self.username, ssid: wifiDetails[firSSIDNode]!, password: wifiDetails[firPasswordNode]!, hashKey: wifiDetails[firHashNode]!)
-                            wifiArray.append(wifi)
+        
+        if let id = id {
+            
+            dbRef.child(id).observeSingleEvent(of: .value, with: { snapshot -> Void in
+                if snapshot.exists() {
+                    if let wifiMap = snapshot.value as? [String:AnyObject] {
+                        for wifiHash in wifiMap.keys {
+                            if let wifiDetails = wifiMap[wifiHash] as? [String: String] {
+                                let wifi = Wifi(username: self.username, ssid: wifiDetails[firSSIDNode]!, password: wifiDetails[firPasswordNode]!, hashKey: wifiDetails[firHashNode]!)
+                                wifiArray.append(wifi)
+                            }
                         }
+                        completion(wifiArray)
                     }
-                    completion(wifiArray)
+                } else {
+                    completion(nil)
                 }
-            } else {
-                completion(nil)
-            }
-        })
+            })
+        }
     }
 }

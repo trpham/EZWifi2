@@ -9,9 +9,11 @@
 import Foundation
 import UIKit
 import FirebaseAuth
+import HxColor
 
 protocol LogInViewControllerDelegate {
     func logInSuccess(_ controller: LogInViewController)
+    func goToSignUp(_ controller: LogInViewController)
 }
 
 class LogInViewController: UIViewController, UITextFieldDelegate {
@@ -20,7 +22,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
     @IBOutlet weak var errorBoxHeightConstrant: NSLayoutConstraint!
-    @IBOutlet weak var logInButton: DesignableButton!
+    @IBOutlet weak var logInButton: UIButton!
+    @IBOutlet weak var bottomHeight: NSLayoutConstraint!
     
     var delegate: LogInViewControllerDelegate?
     
@@ -53,6 +56,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 else {
                     print("error: invalid user")
                     
+                    
+//                    print(error?.localizedDescription)
+//
+//                    self.errorLabel.sizeToFit()
+                    self.errorLabel.text = error?.localizedDescription
+//                    self.errorLabel.textAlignment = .center
+//                    self.errorBoxHeightConstrant.constant = self.errorLabel.frame.height
+                    
 //
 //                    let alertController = UIAlertController(title: "Log In Error", message:
 //                        error?.localizedDescription, preferredStyle: .alert)
@@ -64,12 +75,19 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         }
     }
     
+    
+    @IBAction func signUpPressed(_ sender: UIButton) {
+        self.delegate?.goToSignUp(self)
+        self.view.removeFromSuperview()
+    }
+   
     override func viewDidLoad() {
         super.viewDidLoad()
         self.emailTextField.delegate = self
         self.passwordTextField.delegate = self
         
-        self.errorBoxHeightConstrant.constant = 0
+        self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
+        print(bottomHeight.constant)
         self.view.layoutIfNeeded()
         
         self.logInButton.isEnabled = false
@@ -77,6 +95,28 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
+    
+    @objc func keyboardWillShow(notification: NSNotification) {
+        if let userInfoDict = notification.userInfo, let keyboardSize = (userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            self.bottomHeight.constant = keyboardSize.height
+            print(self.bottomHeight.constant)
+//            print(self.bottomHeight.constant)
+            self.view.layoutIfNeeded()
+        }
+    }
+
+    
+    @objc func keyboardWillHide(notification: NSNotification) {
+        UIView.animate(withDuration: 0.8) {
+            self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
+            print(self.bottomHeight.constant)
+//            print(self.bottomHeight.constant)
+            self.view.layoutIfNeeded()
+        }
     }
     
     @objc func textFieldsIsNotEmpty(sender: UITextField) {
@@ -89,17 +129,16 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             else
         {
             self.logInButton.isEnabled = false
-            self.logInButton.alpha = 0.5
+            self.logInButton.backgroundColor = UIColor.lightGray
             return
         }
         self.logInButton.isEnabled = true
-        
-//        self.logInButton.alpha = 1
+        self.logInButton.backgroundColor = UIColor(0x0000FF)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.emailTextField.becomeFirstResponder()
+//        self.emailTextField.becomeFirstResponder()
     }
     
     // Hide keyboard when user touches outsite
@@ -115,6 +154,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     }
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        self.errorLabel.text = ""
         return true
     }
     

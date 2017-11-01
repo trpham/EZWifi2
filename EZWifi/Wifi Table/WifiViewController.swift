@@ -10,17 +10,17 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class WifiViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInViewControllerDelegate {
+class WifiViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInViewControllerDelegate, SignUpViewControllerDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     
     let codeGenerator = FCBBarCodeGenerator()
-    var currentUser: CurrentUser!
+//    var currentUser: CurrentUser!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentUser = CurrentUser()
+//        currentUser = CurrentUser()
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -30,21 +30,33 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.tableView.estimatedRowHeight = 100
         self.tableView.rowHeight = UITableViewAutomaticDimension
         
+//        try! Auth.auth().signOut()
+        if (Auth.auth().currentUser == nil) {
+            showLogIn()
+        }
+        
+        updateData()
+
+    }
+    
+    @IBAction func signOutPressed(_ sender: UIButton) {
         try! Auth.auth().signOut()
+        
+        currentUser = CurrentUser()
         
         if (Auth.auth().currentUser == nil) {
             showLogIn()
             updateData()
         }
-
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
 //        if (Auth.auth().currentUser != nil) {
-            tableView.reloadData()
-            updateData()
+//            tableView.reloadData()
+//            updateData()
+//            tableView.reloadData()
 //        }
     }
     
@@ -52,15 +64,19 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         if (Auth.auth().currentUser != nil) {
         
+            currentUser.clearWifi()
+            
             currentUser.getWifi() { (wifis) in
                 if let wifis = wifis {
-                    clearWifi()
                     for wifi in wifis {
-                        addWifiToList(wifi: wifi)
+                        currentUser.addWifiToList(wifi: wifi)
                     }
+                    
+                    print("999: \(currentUser.wifiList)")
                     self.tableView.reloadData()
                 }
             }
+            self.tableView.reloadData()
         }
     }
     
@@ -69,8 +85,8 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("1111: \(wifiList)")
-        return wifiList.count
+        print("1111: \(currentUser.wifiList)")
+        return currentUser.wifiList.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -106,9 +122,35 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         logInViewController.didMove(toParentViewController: self)
     }
     
+    func showSignUp() {
+        let signUpViewController = storyboard?.instantiateViewController(withIdentifier: "signUpViewController") as! SignUpViewController
+        
+        signUpViewController.delegate = self
+        
+        signUpViewController.willMove(toParentViewController: self)
+        self.view.addSubview(signUpViewController.view)
+        self.addChildViewController(signUpViewController)
+        signUpViewController.didMove(toParentViewController: self)
+    }
+    
+    
     func logInSuccess(_ controller: LogInViewController) {
+        currentUser = CurrentUser()
         updateData()
-//        dismiss(animated: true)
+//        self.tableView.reloadData()
+    }
+    
+    func goToSignUp(_ controller: LogInViewController) {
+        showSignUp()
+    }
+    
+    func signUpSuccess(_ controller: SignUpViewController) {
+        currentUser = CurrentUser()
+        updateData()
+    }
+    
+    func goToLogIn(_ controller: SignUpViewController) {
+        showLogIn()
     }
 
     override func didReceiveMemoryWarning() {
