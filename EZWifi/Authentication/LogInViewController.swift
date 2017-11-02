@@ -12,7 +12,7 @@ import FirebaseAuth
 import HxColor
 
 protocol LogInViewControllerDelegate {
-    func logInSuccess(_ controller: LogInViewController)
+    func logInSuccess(_ controller: LogInViewController, user: User)
     func goToSignUp(_ controller: LogInViewController)
 }
 
@@ -50,7 +50,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
             Auth.auth().signIn(withEmail: userEmail, password: passwordText) { (user, error) in
                 if error == nil {
                     print("Login success")
-                    self.delegate?.logInSuccess(self)
+                    self.delegate?.logInSuccess(self, user: user!)
                     self.view.removeFromSuperview()
                 }
                 else {

@@ -16,6 +16,9 @@ class WifiTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        ssid.text = ""
+        password.text = ""
+        QRImageView.image = UIImage()
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {

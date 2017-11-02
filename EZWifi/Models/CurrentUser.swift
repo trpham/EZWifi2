@@ -25,6 +25,12 @@ class CurrentUser {
         wifiList = []
     }
     
+    init(user: User) {
+        username = user.displayName
+        id = user.uid
+        wifiList = []
+    }
+    
     func clearWifi() {
         wifiList = []
     }
@@ -34,7 +40,11 @@ class CurrentUser {
     }
     
     func getWifiFromIndexPath(indexPath: IndexPath) -> Wifi? {
-        return wifiList[indexPath.row]
+        if let wifi = wifiList?[indexPath.row] {
+            return wifi
+        } else {
+            return nil
+        }
     }
     
     func addWifi(ssid: String, password: String, hash: String) {
@@ -67,7 +77,7 @@ class CurrentUser {
                         completion(wifiArray)
                     }
                 } else {
-                    completion(nil)
+                    completion(wifiArray)
                 }
             })
         }

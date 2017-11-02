@@ -15,7 +15,6 @@
 		D80B3F3B1FA535100010D3B7 /* Wifi.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3A1FA535100010D3B7 /* Wifi.swift */; };
 		D80B3F3D1FA536600010D3B7 /* Strings.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3C1FA536600010D3B7 /* Strings.swift */; };
 		D80B3F401FA5454B0010D3B7 /* WifiViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */; };
-		D80B3F441FA547CA0010D3B7 /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */; };
 		D81786821F92E86A00795B5E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D81786811F92E86A00795B5E /* AppDelegate.swift */; };
 		D81786871F92E86A00795B5E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D81786851F92E86A00795B5E /* Main.storyboard */; };
 		D81786891F92E86A00795B5E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D81786881F92E86A00795B5E /* Assets.xcassets */; };
@@ -53,6 +52,7 @@
 		D841134F1FA870B200BB45EB /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D84113401FA870B000BB45EB /* Nunito-Bold.ttf */; };
 		D84113501FA870B200BB45EB /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D84113411FA870B100BB45EB /* Nunito-BoldItalic.ttf */; };
 		D84113511FA870B200BB45EB /* Nunito-LightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = D84113421FA870B100BB45EB /* Nunito-LightItalic.ttf */; };
+		D8538F6F1FAAB48700EDF7EE /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8538F6E1FAAB48700EDF7EE /* NetworkExtension.framework */; };
 		D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */; };
 		D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */; };
 		D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */; };
@@ -70,7 +70,6 @@
 		D80B3F3A1FA535100010D3B7 /* Wifi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Wifi.swift; sourceTree = "<group>"; };
 		D80B3F3C1FA536600010D3B7 /* Strings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Strings.swift; sourceTree = "<group>"; };
 		D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiViewController.swift; sourceTree = "<group>"; };
-		D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		D817867E1F92E86A00795B5E /* EZWifi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EZWifi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D81786811F92E86A00795B5E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D81786861F92E86A00795B5E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -111,6 +110,7 @@
 		D84113401FA870B000BB45EB /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
 		D84113411FA870B100BB45EB /* Nunito-BoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-BoldItalic.ttf"; sourceTree = "<group>"; };
 		D84113421FA870B100BB45EB /* Nunito-LightItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-LightItalic.ttf"; sourceTree = "<group>"; };
+		D8538F6E1FAAB48700EDF7EE /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
 		D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCBBarCodeGenerator.swift; sourceTree = "<group>"; };
 		D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
@@ -122,7 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A239231F5351AA35ECDA8614 /* Pods_EZWifi.framework in Frameworks */,
-				D80B3F441FA547CA0010D3B7 /* NetworkExtension.framework in Frameworks */,
+				D8538F6F1FAAB48700EDF7EE /* NetworkExtension.framework in Frameworks */,
 				D83AB4CA1F93099600BC8B62 /* ExternalAccessory.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,7 +142,7 @@
 		75D5BAFE5B9E891F4121619D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D80B3F431FA547CA0010D3B7 /* NetworkExtension.framework */,
+				D8538F6E1FAAB48700EDF7EE /* NetworkExtension.framework */,
 				D80B3F281FA52CD80010D3B7 /* SwiftHTTP.framework */,
 				D83AB4C91F93099600BC8B62 /* ExternalAccessory.framework */,
 				30722D1CEECFD904D396D3E9 /* Pods_EZWifi.framework */,
@@ -325,7 +325,7 @@
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.HotspotConfiguration = {
-								enabled = 1;
+								enabled = 0;
 							};
 							com.apple.NetworkExtensions.iOS = {
 								enabled = 1;

@@ -12,7 +12,7 @@ import RNCryptor
 
 let masterKey = "jkjfdoajifsjiopadfuiaewinsiSKKJDFS"
 
-var currentUser = CurrentUser()
+//var currentUser = CurrentUser()
 
 class Wifi {
     let username: String
