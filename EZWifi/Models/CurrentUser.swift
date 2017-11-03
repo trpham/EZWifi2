@@ -47,16 +47,45 @@ class CurrentUser {
         }
     }
     
-    func addWifi(ssid: String, password: String, hash: String) {
-        let wifi = [
+    func updateWifi(wifi: Wifi, ssid: String, password: String, hash:String) {
+        
+        self.removeWifiFromCloud(wifi: wifi)
+        
+        self.addWifiToCloud(ssid: ssid, password: password, hash: hash)
+        
+        // Update local wifiList
+        let newWifi = Wifi(username: username, ssid: ssid, password: password, hashKey: hash)
+
+        for i in (0..<self.wifiList.count) {
+            if wifiList[i].hashKey == wifi.hashKey {
+                wifiList[i] = newWifi
+                break
+            }
+        }
+    }
+    
+    func removeWifiFromCloud(wifi: Wifi) {
+        dbRef.child(id).child(wifi.ssid).removeValue()
+    }
+    
+    func addWifiToCloud(ssid: String, password: String, hash: String) {
+        let wifiNode = [
             firUsernameNode: username,
             firSSIDNode: ssid,
             firPasswordNode: password,
             firHashNode: hash
         ]
         
-        let childUpdate = ["/\(id!)/\(ssid)": wifi]
+        let childUpdate = ["/\(id!)/\(ssid)": wifiNode]
         dbRef.updateChildValues(childUpdate)
+    }
+    
+    func addWifi(ssid: String, password: String, hash: String) {
+       
+        self.addWifiToCloud(ssid: ssid, password: password, hash: hash)
+        
+        let wifi = Wifi(username: username, ssid: ssid, password: password, hashKey: hash)
+        self.addWifiToList(wifi: wifi)
     }
     
     func getWifi(completion: @escaping ([Wifi]?) -> Void) {

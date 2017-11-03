@@ -12,59 +12,107 @@ import SwiftHash
 import FirebaseAuth
 import HxColor
 
+protocol QRGeneratorViewControllerDelegate {
+    func needUpdateData(_ controller: QRGeneratorViewController)
+}
+
 class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScrollViewDelegate {
 
     @IBOutlet weak var SSIDTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
-    @IBOutlet weak var QRCodeImageView: UIImageView!
     @IBOutlet weak var generateQRButton: UIButton!
+    
     @IBOutlet weak var ssidLabel: UILabel!
     @IBOutlet weak var passwordLabel: UILabel!
-    @IBOutlet weak var scrollView: UIScrollView!
-    @IBOutlet weak var QRView: UIView!
+    @IBOutlet weak var QRCodeImageView: UIImageView!
     
+    @IBOutlet weak var wifiInputView: UIView!
+    @IBOutlet weak var QRView: UIView!
+    @IBOutlet weak var downloadView: UIView!
+    
+    @IBOutlet weak var scrollView: UIScrollView!
+    
+    var delegate: QRGeneratorViewControllerDelegate?
+    
+    // SSID and Password of the wifi input fields
     var ssid = ""
     var password = ""
     
-    let codeGenerator = FCBBarCodeGenerator()
+    // Current wifi if this is in wifi view mode
+    var wifi: Wifi!
     var currentUser: CurrentUser!
-   
+    
+    // Hide/Show the Wifi input view by activate/deactivate this constraint
+    var wifiInputViewZeroHeight: NSLayoutConstraint!
+    
+    // Check if this is in wifi view mode
+    var isViewMode: Bool!
+    
+    let codeGenerator = FCBBarCodeGenerator()
+    
+    func enable(button: UIButton, status: Bool) {
+        button.isEnabled = status
+        if (status) {
+            button.backgroundColor = UIColor(0x0000FF)
+        } else {
+            button.backgroundColor = UIColor.lightGray
+        }
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         self.SSIDTextField.delegate = self
         self.passwordTextField.delegate = self
-        
-        self.QRView.isHidden = true
-        scrollView.isScrollEnabled = false
-        
-        self.generateQRButton.isEnabled = false
-        self.generateQRButton.backgroundColor = UIColor.lightGray
-        
         self.scrollView.delegate = self
         
-        // Dismiss keyboard on tapping
+        self.enable(button: self.generateQRButton, status: false)
+        
+        self.wifiInputViewZeroHeight = NSLayoutConstraint(item: self.wifiInputView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 0)
+        
+        if (isViewMode) {
+            self.QRView.isHidden = false
+            self.scrollView.isScrollEnabled = true
+            NSLayoutConstraint.activate([wifiInputViewZeroHeight])
+            
+            self.SSIDTextField.text = wifi.ssid
+            self.passwordTextField.text = wifi.password
+            
+            self.ssidLabel.text = wifi.ssid
+            self.passwordLabel.text = wifi.password
+            
+            let QRSize = CGSize(width: 500, height: 500)
+            let QRImage = codeGenerator.barcode(code: wifi.hashKey, type: .qrcode, size: QRSize)
+            self.QRCodeImageView.image = QRImage
+        }
+        else {
+            self.QRView.isHidden = true
+            self.scrollView.isScrollEnabled = false
+            NSLayoutConstraint.deactivate([wifiInputViewZeroHeight])
+        }
+        
+        // Set dismiss keyboard on tapping
         let scrollViewTap = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
         scrollViewTap.numberOfTapsRequired = 1
         self.scrollView.addGestureRecognizer(scrollViewTap)
         
+        // To Enable/Disable Generate QR Button
         self.SSIDTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
     }
     
-    
+    // Set dismiss keyboard on tapping
     @objc func scrollViewTapped() {
         self.view.endEditing(true)
     }
     
-    // Dismiss keyboard on scrolling
+    // Set dismiss keyboard on scrolling
     func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
         self.view.endEditing(true)
     }
     
     @objc func textFieldsIsNotEmpty(sender: UITextField) {
-
         sender.text = sender.text?.trimmingCharacters(in: .whitespaces)
-
         guard
             let ssid = self.SSIDTextField.text, !ssid.isEmpty,
             let password = self.passwordTextField.text, !password.isEmpty
@@ -77,44 +125,65 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         self.generateQRButton.isEnabled = true
         self.generateQRButton.backgroundColor = UIColor(0x0000FF)
     }
+    
 
     @IBAction func generateQRCode(_ sender: Any) {
         
         guard let ssid = SSIDTextField.text else { return }
         guard let password = passwordTextField.text else { return }
+        
+        self.ssidLabel.text = ssid
+        self.passwordLabel.text = password
 
-        if ssid == "" || password == "" {
-            let alertController = UIAlertController(title: "Wifi Error", message: "Please enter an SSID and password.", preferredStyle: .alert)
+        self.QRView.isHidden = false
+        self.scrollView.isScrollEnabled = true
+        NSLayoutConstraint.activate([self.wifiInputViewZeroHeight])
 
-            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-            alertController.addAction(defaultAction)
-            self.present(alertController, animated: true, completion: nil)
+        let wifiHash = encryptWifi(text: ssid + "|||" + password + "|||" + self.currentUser.id)
+        let QRSize = CGSize(width: 500, height: 500)
+        let QRImage = codeGenerator.barcode(code: wifiHash, type: .qrcode, size: QRSize)
+        self.QRCodeImageView.image = QRImage
+    
+        if (isViewMode) {
+            self.currentUser.updateWifi(wifi: self.wifi, ssid: ssid, password: password, hash: wifiHash)
         }
         else {
-            
-            self.QRView.isHidden = false
-            self.scrollView.isScrollEnabled = true
-
-            self.ssidLabel.text = ssid
-            self.passwordLabel.text = password
-
-            let wifiHash = encryptWifi(text: ssid + "|||" + password + "|||" + self.currentUser.id)
-
-            let QRSize = CGSize(width: QRCodeImageView.frame.width , height: QRCodeImageView.frame.height)
-
-            if let QRImage = codeGenerator.barcode(code: wifiHash, type: .qrcode, size: QRSize) {
-                QRCodeImageView.image = QRImage
-            }
-            
             self.currentUser.addWifi(ssid: ssid, password: password, hash: wifiHash)
+        }
+        
+        self.delegate?.needUpdateData(self)
 
-            passwordTextField.resignFirstResponder()
-            SSIDTextField.resignFirstResponder()
+        self.passwordTextField.resignFirstResponder()
+        self.SSIDTextField.resignFirstResponder()
+    }
+    
+    func copy(image: UIImage) -> UIImage {
+        
+        UIGraphicsBeginImageContext(image.size)
+        image.draw(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
+        let copiedImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return copiedImage!
+    }
+    
+    @IBAction func editButtonTapped(_ sender: UIButton) {
+        NSLayoutConstraint.deactivate([self.wifiInputViewZeroHeight])
+    }
+    
+    // Download QR code image using UIActivityViewController
+    @IBAction func downloadImage(_ sender: UIButton) {
+        
+        if let QRImage = self.QRCodeImageView.image {
+            let copiedImage = self.copy(image: QRImage)
+            let activityViewController = UIActivityViewController(activityItems: [copiedImage], applicationActivities: nil)
+            activityViewController.popoverPresentationController?.sourceView = self.view
+            self.present(activityViewController, animated: true, completion: nil)
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+    @IBAction func downloadImageWithInstructionPDF(_ sender: UIButton) {
+        
     }
     
     // Hide keyboard when user touches outsite

@@ -10,12 +10,18 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 
-class WifiViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInViewControllerDelegate, SignUpViewControllerDelegate {
-
+class WifiViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInViewControllerDelegate, SignUpViewControllerDelegate, QRGeneratorViewControllerDelegate {
+    
+    func needUpdateData(_ controller: QRGeneratorViewController) {
+        self.tableView.reloadData()
+    }
+    
     @IBOutlet weak var tableView: UITableView!
     
     let codeGenerator = FCBBarCodeGenerator()
     var currentUser: CurrentUser!
+
+    var wifi: Wifi!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +33,11 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         self.tableView.tableFooterView = UIView(frame: CGRect.zero)
         
-        self.tableView.estimatedRowHeight = 100
-        self.tableView.rowHeight = UITableViewAutomaticDimension
+//        self.tableView.estimatedRowHeight = 100
+//        self.tableView.rowHeight = UITableViewAutomaticDimension
+        
+
+        
         
 //        try! Auth.auth().signOut()
         if (Auth.auth().currentUser == nil) {
@@ -39,6 +48,8 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
             updateData()
         }
     }
+    
+  
     
     @IBAction func signOutPressed(_ sender: UIButton) {
         try! Auth.auth().signOut()
@@ -60,7 +71,10 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
 //        }
     }
     
+    
+    
     @IBAction func addButtonTapped(_ sender: UIButton) {
+        self.wifi = nil
         performSegue(withIdentifier: "toAddWifiView", sender: nil)
     }
     
@@ -68,6 +82,13 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         if let identifier = segue.identifier {
             if identifier == "toAddWifiView" {
                 if let dest = segue.destination as? QRGeneratorViewController {
+                    dest.delegate = self
+                    if wifi != nil {
+                        dest.isViewMode = true
+                        dest.wifi = wifi
+                    } else {
+                        dest.isViewMode = false
+                    }
                     dest.currentUser = self.currentUser
                 }
             }
@@ -131,8 +152,13 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath)
+        performSegue(withIdentifier: "toAddWifiView", sender: nil)
+    }
+    
     @IBAction func unwindToWifiPage(segue: UIStoryboardSegue) {
-        updateData()
+//        updateData()
     }
     
     func showLogIn() {
