@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '509547BC43EC0C5597B604AB009E1449'
-               BlueprintName = 'SwiftHTTP'
+               BlueprintIdentifier = 'C987ABC0516F08EB4031980AAE831F95'
+               BlueprintName = 'PDFGenerator'
                ReferencedContainer = 'container:Pods.xcodeproj'
-               BuildableName = 'SwiftHTTP.framework'>
+               BuildableName = 'PDFGenerator.framework'>
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

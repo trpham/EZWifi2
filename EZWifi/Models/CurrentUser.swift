@@ -39,6 +39,15 @@ class CurrentUser {
         wifiList.append(wifi)
     }
     
+    func removeWifiFromList(wifi: Wifi) {
+        for i in (0..<self.wifiList.count) {
+            if wifiList[i].hashKey == wifi.hashKey {
+                wifiList.remove(at: i)
+                break
+            }
+        }
+    }
+    
     func getWifiFromIndexPath(indexPath: IndexPath) -> Wifi? {
         if let wifi = wifiList?[indexPath.row] {
             return wifi

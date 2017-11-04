@@ -11,6 +11,7 @@ import SwiftHTTP
 import SwiftHash
 import FirebaseAuth
 import HxColor
+import JSSAlertView
 
 protocol QRGeneratorViewControllerDelegate {
     func needUpdateData(_ controller: QRGeneratorViewController)
@@ -29,6 +30,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     @IBOutlet weak var wifiInputView: UIView!
     @IBOutlet weak var QRView: UIView!
     @IBOutlet weak var downloadView: UIView!
+    @IBOutlet weak var deleteView: UIView!
     
     @IBOutlet weak var scrollView: UIScrollView!
     
@@ -72,6 +74,8 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         
         if (isViewMode) {
             self.QRView.isHidden = false
+            self.downloadView.isHidden = false
+            self.deleteView.isHidden = false
             self.scrollView.isScrollEnabled = true
             NSLayoutConstraint.activate([wifiInputViewZeroHeight])
             
@@ -87,6 +91,8 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         }
         else {
             self.QRView.isHidden = true
+            self.downloadView.isHidden = true
+            self.deleteView.isHidden = true
             self.scrollView.isScrollEnabled = false
             NSLayoutConstraint.deactivate([wifiInputViewZeroHeight])
         }
@@ -136,6 +142,8 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         self.passwordLabel.text = password
 
         self.QRView.isHidden = false
+        self.downloadView.isHidden = false
+        self.deleteView.isHidden = false
         self.scrollView.isScrollEnabled = true
         NSLayoutConstraint.activate([self.wifiInputViewZeroHeight])
 
@@ -151,10 +159,18 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             self.currentUser.addWifi(ssid: ssid, password: password, hash: wifiHash)
         }
         
+        self.updateCurrentWifiWith(ssid: ssid, password: password, hash: wifiHash)
+        
         self.delegate?.needUpdateData(self)
 
         self.passwordTextField.resignFirstResponder()
         self.SSIDTextField.resignFirstResponder()
+    }
+    
+    // Update current Wifi, important in case user want to delete this wifi.
+    func updateCurrentWifiWith(ssid: String, password: String, hash: String) {
+        let wifi = Wifi(username: currentUser.username, ssid: ssid, password: password, hashKey: hash)
+        self.wifi = wifi
     }
     
     func copy(image: UIImage) -> UIImage {
@@ -165,6 +181,10 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         UIGraphicsEndImageContext()
         
         return copiedImage!
+    }
+    
+    @IBAction func doneButtonTapped(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "unwindToWifi", sender: self)
     }
     
     @IBAction func editButtonTapped(_ sender: UIButton) {
@@ -182,10 +202,47 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         }
     }
     
-    @IBAction func downloadImageWithInstructionPDF(_ sender: UIButton) {
-        
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let identifier = segue.identifier {
+            if identifier == "goToPreview" {
+                if let dest = segue.destination as? PrintPreviewViewController {
+                   dest.image = self.QRCodeImageView.image
+                }
+            }
+        }
     }
     
+    @IBAction func downloadImageWithInstructionPDF(_ sender: UIButton) {
+        self.performSegue(withIdentifier: "goToPreview", sender: nil)
+    }
+    
+    @IBAction func deleteButtonTapped(_ sender: UIButton) {
+        
+        let alertview = JSSAlertView().show(self,
+                                            title: "Delete",
+                                            text: "Are you sure you want to delete?",
+                                            buttonText: "Yes",
+                                            cancelButtonText: "No",
+                                            color: UIColorFromHex(0xCE0D31, alpha: 1))
+        alertview.addAction(closeCallback)
+        alertview.setTitleFont("NunitoSans-SemiBold")
+        alertview.setTextFont("NunitoSans-Regular")
+        alertview.setButtonFont("NunitoSans-SemiBold")
+        alertview.setTextTheme(.light)
+    }
+    
+    func closeCallback() {
+        print("Close callback called")
+        self.currentUser.removeWifiFromCloud(wifi: self.wifi)
+        self.currentUser.removeWifiFromList(wifi: self.wifi)
+        self.delegate?.needUpdateData(self)
+        self.performSegue(withIdentifier: "unwindToWifi", sender: self)
+    }
+    
+    func cancelCallback() {
+        print("Cancel callback called")
+    }
+
     // Hide keyboard when user touches outsite
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         self.view.endEditing(true)

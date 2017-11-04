@@ -15,5 +15,8 @@ target 'EZWifi' do
   pod 'FirebaseStorage'
   pod 'RNCryptor', '~> 5.0'
   pod 'HxColor', '~> 4.0'
+  pod 'JSSAlertView'
+  pod 'PDFGenerator', '~> 2.1'
+
 
 end
