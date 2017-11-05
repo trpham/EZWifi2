@@ -17,5 +17,10 @@ target 'EZWifi' do
   pod 'HxColor', '~> 4.0'
   pod 'JSSAlertView'
   pod 'PDFGenerator', '~> 2.1'
+  pod 'FBSDKCoreKit'
+  pod 'FBSDKShareKit'
+  pod 'FBSDKLoginKit'
+
+
 
 end

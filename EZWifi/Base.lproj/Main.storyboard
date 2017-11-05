@@ -500,13 +500,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="ADD" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JbX-xF-710">
-                                        <rect key="frame" x="0.0" y="26" width="375" height="28"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="375" height="27.5"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Ze-Pn-ALu">
-                                        <rect key="frame" x="12" y="24" width="32" height="32"/>
+                                        <rect key="frame" x="12" y="24.5" width="32" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="EDIT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -516,7 +516,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ClZ-fQ-ERd">
-                                        <rect key="frame" x="322" y="24" width="41" height="32"/>
+                                        <rect key="frame" x="322" y="24.5" width="41" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="DONE">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -592,13 +592,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WIFI" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sMJ-6C-ch7">
-                                        <rect key="frame" x="0.0" y="26" width="375" height="28"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="375" height="27.5"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Abo-a7-UiC">
-                                        <rect key="frame" x="12" y="24" width="68" height="32"/>
+                                        <rect key="frame" x="12" y="24.5" width="68" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="SIGN OUT">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -608,7 +608,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O1K-2I-RCM">
-                                        <rect key="frame" x="331" y="24" width="32" height="32"/>
+                                        <rect key="frame" x="331" y="24.5" width="32" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="ADD">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -762,7 +762,7 @@
                                 <fontDescription key="fontDescription" name="NunitoSans-SemiBold" family="Nunito Sans" pointSize="18"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="USERNAME OR EMAIL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pw-D9-kXh">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="EMAIL" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3pw-D9-kXh">
                                 <rect key="frame" x="26" y="120" width="323" height="22"/>
                                 <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="16"/>
                                 <color key="textColor" red="0.50196081400000003" green="0.50196081400000003" blue="0.50196081400000003" alpha="1" colorSpace="calibratedRGB"/>
@@ -832,13 +832,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="LOG IN" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rjW-7w-lJ8">
-                                        <rect key="frame" x="0.0" y="26" width="375" height="28"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="375" height="27.5"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tzu-32-W7j">
-                                        <rect key="frame" x="306" y="24" width="57" height="32"/>
+                                        <rect key="frame" x="306" y="24.5" width="57" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="SIGN UP">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -860,6 +860,20 @@
                                     <constraint firstItem="tzu-32-W7j" firstAttribute="centerY" secondItem="rjW-7w-lJ8" secondAttribute="centerY" id="tbX-aN-jdj"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gs0-MR-yx2" customClass="FBSDKLoginButton">
+                                <rect key="frame" x="26" y="284" width="323" height="74"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oJQ-21-mEJ">
+                                <rect key="frame" x="85" y="346" width="205" height="65"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="0.50196081400000003" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Facebook"/>
+                                <connections>
+                                    <action selector="handleFBLogin:" destination="RC5-RR-Ooz" eventType="touchUpInside" id="AoZ-Mf-NKd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -898,9 +912,11 @@
                         <viewLayoutGuide key="safeArea" id="H2b-mU-iPL"/>
                     </view>
                     <connections>
+                        <outlet property="CustomFBLogInButton" destination="oJQ-21-mEJ" id="4cu-AZ-dTi"/>
+                        <outlet property="FBLogInButton" destination="gs0-MR-yx2" id="3RY-3c-VUC"/>
                         <outlet property="bottomHeight" destination="1ZJ-sg-X82" id="RaT-34-WTV"/>
                         <outlet property="emailTextField" destination="sSZ-cx-YIe" id="mFA-SK-7dE"/>
-                        <outlet property="errorBoxHeightConstrant" destination="XOp-Xk-5Ub" id="fu1-PW-5kP"/>
+                        <outlet property="errorBoxHeightConstrant" destination="oJQ-21-mEJ" id="Lnc-lP-jy1"/>
                         <outlet property="errorLabel" destination="XAZ-pF-6mn" id="6vD-Hr-1Mi"/>
                         <outlet property="logInButton" destination="P8q-7i-Fg7" id="2bC-lX-qKC"/>
                         <outlet property="passwordTextField" destination="yW1-q8-Vdf" id="ufb-te-kTG"/>
@@ -908,7 +924,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="LRF-ZM-e7o" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-966" y="-66"/>
+            <point key="canvasLocation" x="-967.20000000000005" y="-66.11694152923539"/>
         </scene>
         <!--Print Preview View Controller-->
         <scene sceneID="jjs-gc-Y9m">
@@ -1032,13 +1048,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PRINT REVIEW" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bbw-GG-aGV">
-                                        <rect key="frame" x="0.0" y="26" width="375" height="28"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="375" height="27.5"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="joD-cw-Etb">
-                                        <rect key="frame" x="12" y="24" width="45" height="32"/>
+                                        <rect key="frame" x="12" y="24.5" width="45" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="CLOSE">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -1221,13 +1237,13 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="64"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="SIGN UP" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GAc-pS-m6J">
-                                        <rect key="frame" x="0.0" y="26" width="375" height="28"/>
+                                        <rect key="frame" x="0.0" y="26.5" width="375" height="27.5"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="20"/>
                                         <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qWU-F9-0ky">
-                                        <rect key="frame" x="316" y="24" width="47" height="32"/>
+                                        <rect key="frame" x="316" y="24.5" width="47" height="32"/>
                                         <fontDescription key="fontDescription" name="NunitoSans-Bold" family="Nunito Sans" pointSize="14"/>
                                         <state key="normal" title="LOG IN">
                                             <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

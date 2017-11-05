@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import HxColor
+import FBSDKCoreKit
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,12 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         FirebaseApp.configure()
         UserDefaults.standard.setValue(false, forKey:"_UIConstraintBasedLayoutLogUnsatisfiable")
         
+        FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
+        
         UITabBar.appearance().barTintColor = UIColor.white
         UITabBar.appearance().tintColor = UIColor(0x0971B2)
 //        UITabBar.appearance().layer.borderWidth = 20.0
 //        UITabBar.appearance().clipsToBounds = true
-
         return true
+    }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
+        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        
+        return handled
     }
     
 

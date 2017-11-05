@@ -10,14 +10,18 @@ import Foundation
 import UIKit
 import FirebaseAuth
 import HxColor
+import FBSDKLoginKit
 
 protocol LogInViewControllerDelegate {
     func logInSuccess(_ controller: LogInViewController, user: User)
     func goToSignUp(_ controller: LogInViewController)
 }
 
-class LogInViewController: UIViewController, UITextFieldDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
 
+    @IBOutlet weak var FBLogInButton: FBSDKLoginButton!
+    @IBOutlet weak var CustomFBLogInButton: UIButton!
+    
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
@@ -29,6 +33,58 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     var userEmail = ""
     var userPassword = ""
+    
+    
+    func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
+        print("Did log out of facebook!")
+    }
+    
+    @IBAction func handleFBLogin(_ sender: Any) {
+        FBSDKLoginManager().logIn(withReadPermissions: ["email", "public_profile"], from: self) {
+            (result, err) in
+            if err != nil {
+                print(err as Any)
+                return
+            }
+            self.showEmailAddress()
+        }
+    }
+    
+    func showEmailAddress() {
+        
+        let accessToken = FBSDKAccessToken.current()
+        guard let accessTokenString = accessToken?.tokenString else { return }
+        
+        let credentials = FacebookAuthProvider.credential(withAccessToken: accessTokenString)
+        
+        Auth.auth().signIn(with: credentials, completion: { (user, error) in
+            if error != nil {
+                print("Something went wrong with our FB user: ", error ?? "")
+                return
+            }
+            print("Sccessfully logged in with our user: ", user ?? "")
+            
+        })
+        
+        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email"]).start(completionHandler: { (connection, result, error) -> Void in
+            if (error == nil) {
+                print(result ?? "")
+            } else {
+                print("Failed to start grapth request:", error as Any)
+                return
+            }
+        })
+    }
+
+    
+    func loginButton(_ loginButton: FBSDKLoginButton!, didCompleteWith result: FBSDKLoginManagerLoginResult!, error: Error!) {
+        if error != nil {
+            print(error)
+            return
+        }
+        showEmailAddress()
+        print("Successfully logged in with facebook")
+    }
     
     @IBAction func logInPressed(_ sender: UIButton) {
         guard let emailText = emailTextField.text else { return }
@@ -68,6 +124,8 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         
         self.logInButton.isEnabled = false
         self.logInButton.backgroundColor = UIColor.lightGray
+        self.FBLogInButton.delegate = self
+        self.FBLogInButton.readPermissions = ["email", "public_profile"]
         
         self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
