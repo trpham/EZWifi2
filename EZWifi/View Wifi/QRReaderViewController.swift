@@ -10,38 +10,43 @@ import UIKit
 import AVFoundation
 import SwiftHTTP
 import NetworkExtension
+import JSSAlertView
 //import SwiftHTTP
 
 
 class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 
-    @IBOutlet weak var messageLabel: UILabel!
+    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var startButton: UIButton!
+ 
     @IBOutlet weak var scanView: UIView!
+    @IBOutlet weak var bottomOverlay: UIView!
+    @IBOutlet weak var topOverLay: UIView!
+    @IBOutlet weak var leftOverlay: UIView!
+    @IBOutlet weak var rightOverlay: UIView!
     
     var captureSession:AVCaptureSession?
     var videoPreviewLayer:AVCaptureVideoPreviewLayer?
     var qrCodeFrameView:UIView?
     
+    var blurView: UIView!
+    
+    @IBAction func startButtonTapped(_ sender: Any) {
+        self.blurView.isHidden = true
+        self.startButton.isHidden = true
+        
+        // Add captureMetadataOutput here because we don't want the camera to capture any code prior to this button pressed.
+        // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
+        let captureMetadataOutput = AVCaptureMetadataOutput()
+        captureSession?.addOutput(captureMetadataOutput)
+        
+        // Set delegate and use the default dispatch queue to execute the call back
+        captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
+        captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-//        print("=====")
-//
-//        let text = "ssid" + "" + "password" + ""
-//        print(text)
-//
-//        print("222")
-//        let wifiHash = encryptWifi(text: text)
-//
-//        print("wifiHash \(wifiHash)")
-//
-//        print("222")
-//
-//        print("wifiHashLength \(wifiHash)")
-//        print("222")
-//        print(decryptWifi(text: wifiHash))
-//
-//        print("=====")
         
         // Get an instance of the AVCaptureDevice class to initialize a device object with media type as video.
         let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
@@ -52,15 +57,8 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             
             // Initialize the captureSession object.
             captureSession = AVCaptureSession()
+            
             captureSession?.addInput(input)
-            
-            // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
-            let captureMetadataOutput = AVCaptureMetadataOutput()
-            captureSession?.addOutput(captureMetadataOutput)
-            
-            // Set delegate and use the default dispatch queue to execute the call back
-            captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
-            captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
             
             // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
             videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
@@ -68,17 +66,44 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             videoPreviewLayer?.frame = view.layer.bounds
             view.layer.addSublayer(videoPreviewLayer!)
             
+            
+            
+            // Setup dark background overlay surround scanView
+            self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.bottomOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.leftOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.rightOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.topOverLay.clipsToBounds = true
+            self.bottomOverlay.clipsToBounds = true
+            self.leftOverlay.clipsToBounds = true
+            self.rightOverlay.clipsToBounds = true
+            view.bringSubview(toFront: topOverLay)
+            view.bringSubview(toFront: bottomOverlay)
+            view.bringSubview(toFront: leftOverlay)
+            view.bringSubview(toFront: rightOverlay)
+            
             // Set up scan zone, move the scanView and messageLabel to the front.
-            scanView.layer.borderWidth = 10
-            scanView.layer.borderColor = UIColor.red.cgColor
+            scanView.backgroundColor = .clear
+            scanView.clipsToBounds = true
+            scanView.translatesAutoresizingMaskIntoConstraints = false
+            
             view.bringSubview(toFront: scanView)
-            view.bringSubview(toFront: messageLabel)
             
             // Setup QRCodeFrameView
             setupQRCodeFrameView()
             
             // Start video capture.
             captureSession?.startRunning()
+            
+            let blur = UIBlurEffect(style: .regular)
+            blurView = UIVisualEffectView(effect: blur)
+            blurView.frame = self.view.bounds
+            blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            self.view.addSubview(blurView)
+            
+            self.view.addSubview(startButton)
+            
+            view.bringSubview(toFront: navigationView)
         }
         catch {
             print(error)
@@ -112,7 +137,6 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
         
         if metadataObjects.count == 0 {
             qrCodeFrameView?.frame = CGRect.zero
-            messageLabel.text = ""
             return
         }
         
@@ -127,7 +151,6 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             
             if let QRHash = metadataObj.stringValue {
                 captureSession?.stopRunning()
-                print("2222 \(QRHash)")
                 registerWifi(hash: QRHash)
             }
         }
@@ -140,14 +163,26 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
         
         if wifiText.contains(delimiters) == false {
             
-            let alertController = UIAlertController(title: "Alert", message: "Invalid QRCode", preferredStyle: UIAlertControllerStyle.alert)
             
-            alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: {
-                alert -> Void in
-                self.resetCaptureSession()
-            }))
+            let alertview = JSSAlertView().show(self,
+                                                title: "Invalid QR",
+                                                text: "Make sure you have the correct QR Code",
+                                                buttonText: "OK",
+                                                color: UIColorFromHex(0xCE0D31, alpha: 1))
+            alertview.addAction(self.closeCallback)
+            alertview.setTitleFont("NunitoSans-SemiBold")
+            alertview.setTextFont("NunitoSans-Regular")
+            alertview.setButtonFont("NunitoSans-SemiBold")
+            alertview.setTextTheme(.light)
             
-            self.present(alertController, animated: true, completion: nil)
+//            let alertController = UIAlertController(title: "Alert", message: "Invalid QRCode", preferredStyle: UIAlertControllerStyle.alert)
+//
+//            alertController.addAction(UIAlertAction(title: "Done", style: UIAlertActionStyle.default, handler: {
+//                alert -> Void in
+//                self.resetCaptureSession()
+//            }))
+            
+//            self.present(alertController, animated: true, completion: nil)
 
         } else {
 
@@ -158,10 +193,28 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             WiFiConfig.joinOnce = false
             
             NEHotspotConfigurationManager.shared.apply(WiFiConfig) { error in
-                print ("Error in NEHotspotConfigurationManager: \(error?.localizedDescription as Any)")
-                self.resetCaptureSession()
+                
+//                self.resetCaptureSession()
+                
+                let alertview = JSSAlertView().show(self,
+                                                    title: "Invalid QR",
+                                                    text: error?.localizedDescription,
+                                                    buttonText: "OK",
+                                                    color: UIColorFromHex(0xCE0D31, alpha: 1))
+                alertview.addAction(self.closeCallback)
+                alertview.setTitleFont("NunitoSans-SemiBold")
+                alertview.setTextFont("NunitoSans-Regular")
+                alertview.setButtonFont("NunitoSans-SemiBold")
+                alertview.setTextTheme(.light)
+                
+//                print ("Error in NEHotspotConfigurationManager: \(error?.localizedDescription as Any)")
+                
             }
         }
+    }
+    
+    func closeCallback() {
+        self.resetCaptureSession()
     }
     
     func resetCaptureSession() {

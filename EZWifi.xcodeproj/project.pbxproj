@@ -55,8 +55,9 @@
 		D8538F6F1FAAB48700EDF7EE /* NetworkExtension.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D8538F6E1FAAB48700EDF7EE /* NetworkExtension.framework */; };
 		D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */; };
 		D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */; };
-		D8B4E1CD1FAD7B5E00BDADCF /* wifi.html in Resources */ = {isa = PBXBuildFile; fileRef = D8B4E1CC1FAD7B5E00BDADCF /* wifi.html */; };
+		D8A1942C1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1942B1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift */; };
 		D8B4E1D11FAD7F8A00BDADCF /* PrintPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4E1D01FAD7F8A00BDADCF /* PrintPreviewViewController.swift */; };
+		D8B4E1D51FAE5FBC00BDADCF /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4E1D41FAE5FBC00BDADCF /* ReaderOverlayView.swift */; };
 		D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */; };
 /* End PBXBuildFile section */
 
@@ -115,8 +116,9 @@
 		D8538F6E1FAAB48700EDF7EE /* NetworkExtension.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = NetworkExtension.framework; path = System/Library/Frameworks/NetworkExtension.framework; sourceTree = SDKROOT; };
 		D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
 		D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCBBarCodeGenerator.swift; sourceTree = "<group>"; };
-		D8B4E1CC1FAD7B5E00BDADCF /* wifi.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = wifi.html; sourceTree = "<group>"; };
+		D8A1942B1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
 		D8B4E1D01FAD7F8A00BDADCF /* PrintPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintPreviewViewController.swift; sourceTree = "<group>"; };
+		D8B4E1D41FAE5FBC00BDADCF /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
 		D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -192,6 +194,7 @@
 		D80B3F371FA532C70010D3B7 /* Tab Bar */ = {
 			isa = PBXGroup;
 			children = (
+				D8A1942B1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift */,
 			);
 			path = "Tab Bar";
 			sourceTree = "<group>";
@@ -227,7 +230,6 @@
 		D81786801F92E86A00795B5E /* EZWifi */ = {
 			isa = PBXGroup;
 			children = (
-				D8B4E1CC1FAD7B5E00BDADCF /* wifi.html */,
 				D8B4E1CB1FAD7B0600BDADCF /* View Wifi */,
 				D8EA2FFB1FA84CD50019F0B9 /* Utilities */,
 				D80B3F3E1FA5452F0010D3B7 /* Wifi Table */,
@@ -285,6 +287,7 @@
 		D8B4E1CB1FAD7B0600BDADCF /* View Wifi */ = {
 			isa = PBXGroup;
 			children = (
+				D8B4E1D41FAE5FBC00BDADCF /* ReaderOverlayView.swift */,
 				D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */,
 				D81786931F92E9EB00795B5E /* QRReaderViewController.swift */,
 				D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */,
@@ -387,7 +390,6 @@
 				D841134D1FA870B200BB45EB /* Nunito-SemiBold.ttf in Resources */,
 				D841134E1FA870B200BB45EB /* Nunito-Black.ttf in Resources */,
 				D841134F1FA870B200BB45EB /* Nunito-Bold.ttf in Resources */,
-				D8B4E1CD1FAD7B5E00BDADCF /* wifi.html in Resources */,
 				D84113501FA870B200BB45EB /* Nunito-BoldItalic.ttf in Resources */,
 				D84113511FA870B200BB45EB /* Nunito-LightItalic.ttf in Resources */,
 				D84113251FA8707A00BB45EB /* NunitoSans-LightItalic.ttf in Resources */,
@@ -505,12 +507,14 @@
 				D80B3F3D1FA536600010D3B7 /* Strings.swift in Sources */,
 				D81786941F92E9EB00795B5E /* QRReaderViewController.swift in Sources */,
 				D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */,
+				D8B4E1D51FAE5FBC00BDADCF /* ReaderOverlayView.swift in Sources */,
 				D8B4E1D11FAD7F8A00BDADCF /* PrintPreviewViewController.swift in Sources */,
 				D83EC69E1FA59A3D000A2EA4 /* WifiTableViewCell.swift in Sources */,
 				D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */,
 				D80B3F3B1FA535100010D3B7 /* Wifi.swift in Sources */,
 				D80B3F311FA531CE0010D3B7 /* LogInViewController.swift in Sources */,
 				D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */,
+				D8A1942C1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift in Sources */,
 				D80B3F391FA533050010D3B7 /* CurrentUser.swift in Sources */,
 				D81786821F92E86A00795B5E /* AppDelegate.swift in Sources */,
 				D80B3F401FA5454B0010D3B7 /* WifiViewController.swift in Sources */,

@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 import RNCryptor
 
-let masterKey = "jkjfdoajifsjiopadfuiaewinsiSKKJDFS"
+let masterKey = "jkjfdoajifsji"
 
 //var currentUser = CurrentUser()
 

@@ -18,5 +18,4 @@ target 'EZWifi' do
   pod 'JSSAlertView'
   pod 'PDFGenerator', '~> 2.1'
 
-
 end

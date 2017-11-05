@@ -35,16 +35,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         guard let passwordText = passwordTextField.text else { return }
         
         if emailText == "" || passwordText == "" {
-            
-//            self.errorLabel.text = "Please enter an email and password."
-            
-            
-            //Alert to tell the user that there was an error because they didn't fill anything in the textfields
-//            let alertController = UIAlertController(title: "Log In Error", message: "Please enter an email and password.", preferredStyle: .alert)
-//
-//            let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//            alertController.addAction(defaultAction)
-//            self.present(alertController, animated: true, completion: nil)
+            // Not possible since LogInButton will be disabled
         }
         else {
             Auth.auth().signIn(withEmail: userEmail, password: passwordText) { (user, error) in
@@ -55,26 +46,11 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
                 }
                 else {
                     print("error: invalid user")
-                    
-                    
-//                    print(error?.localizedDescription)
-//
-//                    self.errorLabel.sizeToFit()
                     self.errorLabel.text = error?.localizedDescription
-//                    self.errorLabel.textAlignment = .center
-//                    self.errorBoxHeightConstrant.constant = self.errorLabel.frame.height
-                    
-//
-//                    let alertController = UIAlertController(title: "Log In Error", message:
-//                        error?.localizedDescription, preferredStyle: .alert)
-//                    let defaultAction = UIAlertAction(title: "OK", style: .cancel, handler: nil)
-//                    alertController.addAction(defaultAction)
-//                    self.present(alertController, animated: true, completion: nil)
                 }
             }
         }
     }
-    
     
     @IBAction func signUpPressed(_ sender: UIButton) {
         self.delegate?.goToSignUp(self)
@@ -104,7 +80,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         if let userInfoDict = notification.userInfo, let keyboardSize = (userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             self.bottomHeight.constant = keyboardSize.height
             print(self.bottomHeight.constant)
-//            print(self.bottomHeight.constant)
             self.view.layoutIfNeeded()
         }
     }
@@ -114,7 +89,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
         UIView.animate(withDuration: 0.8) {
             self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
             print(self.bottomHeight.constant)
-//            print(self.bottomHeight.constant)
             self.view.layoutIfNeeded()
         }
     }
@@ -138,7 +112,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        self.emailTextField.becomeFirstResponder()
     }
     
     // Hide keyboard when user touches outsite
