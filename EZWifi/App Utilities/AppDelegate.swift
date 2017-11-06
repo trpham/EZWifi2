@@ -10,15 +10,19 @@ import UIKit
 import Firebase
 import HxColor
 import FBSDKCoreKit
+import GoogleSignIn
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     var window: UIWindow?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
         UserDefaults.standard.setValue(false, forKey:"_UIConstraintBasedLayoutLogUnsatisfiable")
+        
+        GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
+        GIDSignIn.sharedInstance().delegate = self
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
@@ -29,9 +33,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         return true
     }
     
+    func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
+        // ...
+        if let error = error {
+            print("Failed to log into Google: ", error)
+            return
+        }
+        print("123")
+        print("Successfully logged into Google: ", user)
+        
+        guard let idToken = user.authentication.idToken else { return }
+        guard let accessToken = user.authentication.accessToken else { return }
+        let credentials = GoogleAuthProvider.credential(withIDToken: idToken, accessToken: accessToken)
+        
+        Auth.auth().signIn(with: credentials, completion: { (user, error) in
+            if let err = error {
+                print("Failed to create a Firebase User with Google account: ", err)
+                return
+            }
+            guard let uid = user?.uid else { return }
+            print("Sucessfully logged into Firebase with Google ", uid)
+            })
+    }
+    
+    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
+        // Perform any operations when the user disconnects from app here.
+        // ...
+    }
+    
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
         let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         
+         GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
+
+
         return handled
     }
     

@@ -16,10 +16,38 @@
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>fb938203922996116</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.103825366287-egvs0su5o8hufasc7f9jo2088dtuu39a</string>
+			</array>
+		</dict>
+	</array>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>FacebookAppID</key>
+	<string>938203922996116</string>
+	<key>FacebookDisplayName</key>
+	<string>EZWifi</string>
 	<key>LSApplicationCategoryType</key>
 	<string></string>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>fbapi</string>
+		<string>fb-messenger-api</string>
+		<string>fbauth2</string>
+		<string>fbshareextension</string>
+	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -29,6 +57,8 @@
 	</dict>
 	<key>NSCameraUsageDescription</key>
 	<string>We need to access your camera for scanning QR code.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Our application needs permission to write photos...</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Nunito-Black.ttf</string>
@@ -81,28 +111,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-    <key>NSPhotoLibraryAddUsageDescription</key>
-    <string>Our application needs permission to write photos...</string>
-    
-    <key>CFBundleURLTypes</key>
-    <array>
-        <dict>
-            <key>CFBundleURLSchemes</key>
-            <array>
-                <string>fb938203922996116</string>
-            </array>
-        </dict>
-    </array>
-    <key>FacebookAppID</key>
-    <string>938203922996116</string>
-    <key>FacebookDisplayName</key>
-    <string>EZWifi</string>
-    <key>LSApplicationQueriesSchemes</key>
-    <array>
-        <string>fbapi</string>
-        <string>fb-messenger-api</string>
-        <string>fbauth2</string>
-        <string>fbshareextension</string>
-    </array>
 </dict>
 </plist>

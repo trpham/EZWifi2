@@ -32,7 +32,6 @@
 
 static int const FBClientStateChallengeLength = 20;
 static NSString *const FBSDKExpectedChallengeKey = @"expected_login_challenge";
-static NSString *const FBSDKOauthPath = @"/dialog/oauth";
 
 typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
   FBSDKLoginManagerStateIdle,
@@ -506,10 +505,10 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
   NSURL *authURL = [FBSDKInternalUtility URLWithScheme:scheme host:@"authorize" path:@"" queryParameters:mutableParams error:&error];
 
   NSDate *start = [NSDate date];
-  [[FBSDKApplicationDelegate sharedInstance] openURL:authURL sender:self handler:^(BOOL openedURL, NSError *anError) {
+  [[FBSDKApplicationDelegate sharedInstance] openURL:authURL sender:self handler:^(BOOL openedURL) {
     [_logger logNativeAppDialogResult:openedURL dialogDuration:-[start timeIntervalSinceNow]];
     if (handler) {
-      handler(openedURL, anError);
+      handler(openedURL, error);
     }
   }];
 }
@@ -535,14 +534,14 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
                            setObject:redirectURL
                               forKey:@"redirect_uri"];
     authURL = [FBSDKInternalUtility facebookURLWithHostPrefix:@"m."
-                                                         path:FBSDKOauthPath
+                                                         path:@"/dialog/oauth"
                                               queryParameters:browserParams
                                                         error:&error];
   }
   if (authURL) {
-    void(^handlerWrapper)(BOOL, NSError*) = ^(BOOL didOpen, NSError *anError) {
+    void(^handlerWrapper)(BOOL) = ^(BOOL didOpen) {
       if (handler) {
-        handler(didOpen, authMethod, anError);
+        handler(didOpen, authMethod, nil);
       }
     };
     if (useSafariViewController) {
@@ -596,7 +595,7 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
   BOOL isFacebookURL = [[url scheme] hasPrefix:[NSString stringWithFormat:@"fb%@", [FBSDKSettings appID]]] &&
   [[url host] isEqualToString:@"authorize"];
 
-  BOOL isExpectedSourceApplication = [sourceApplication hasPrefix:@"com.facebook"] || [sourceApplication hasPrefix:@"com.apple"] || [sourceApplication hasPrefix:@"com.burbn"];
+  BOOL isExpectedSourceApplication = [sourceApplication hasPrefix:@"com.facebook"] || [sourceApplication hasPrefix:@"com.apple"];
 
   return isFacebookURL && isExpectedSourceApplication;
 }
@@ -606,11 +605,6 @@ typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
   if ([self isPerformingLogin]) {
     [self handleImplicitCancelOfLogIn];
   }
-}
-
-- (BOOL)isAuthenticationURL:(NSURL *)url
-{
-  return [url.path hasSuffix:FBSDKOauthPath];
 }
 
 @end

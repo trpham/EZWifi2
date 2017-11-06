@@ -874,6 +874,23 @@
                                     <action selector="handleFBLogin:" destination="RC5-RR-Ooz" eventType="touchUpInside" id="AoZ-Mf-NKd"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="l1q-YR-7Nj" customClass="Button">
+                                <rect key="frame" x="85" y="436" width="205" height="61"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="handleGoogleLogin:" destination="RC5-RR-Ooz" eventType="touchUpInside" id="Az6-k8-6Jk"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x9h-jg-Mgq">
+                                <rect key="frame" x="124" y="82" width="126" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="sign out google"/>
+                                <connections>
+                                    <action selector="handleGoogleSignOut:" destination="RC5-RR-Ooz" eventType="touchUpInside" id="E6M-i9-7ER"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -915,6 +932,7 @@
                         <outlet property="CustomFBLogInButton" destination="oJQ-21-mEJ" id="4cu-AZ-dTi"/>
                         <outlet property="FBLogInButton" destination="gs0-MR-yx2" id="3RY-3c-VUC"/>
                         <outlet property="bottomHeight" destination="1ZJ-sg-X82" id="RaT-34-WTV"/>
+                        <outlet property="customGoogleButton" destination="l1q-YR-7Nj" id="iti-WV-TQh"/>
                         <outlet property="emailTextField" destination="sSZ-cx-YIe" id="mFA-SK-7dE"/>
                         <outlet property="errorBoxHeightConstrant" destination="oJQ-21-mEJ" id="Lnc-lP-jy1"/>
                         <outlet property="errorLabel" destination="XAZ-pF-6mn" id="6vD-Hr-1Mi"/>

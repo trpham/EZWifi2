@@ -11,16 +11,18 @@ import UIKit
 import FirebaseAuth
 import HxColor
 import FBSDKLoginKit
+import GoogleSignIn
 
 protocol LogInViewControllerDelegate {
     func logInSuccess(_ controller: LogInViewController, user: User)
     func goToSignUp(_ controller: LogInViewController)
 }
 
-class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate {
+class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
 
     @IBOutlet weak var FBLogInButton: FBSDKLoginButton!
     @IBOutlet weak var CustomFBLogInButton: UIButton!
+    @IBOutlet weak var customGoogleButton: UIButton!
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
@@ -33,6 +35,32 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     var userEmail = ""
     var userPassword = ""
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.emailTextField.delegate = self
+        self.passwordTextField.delegate = self
+        
+        self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
+        print(bottomHeight.constant)
+        self.view.layoutIfNeeded()
+        
+        self.logInButton.isEnabled = false
+        self.logInButton.backgroundColor = UIColor.lightGray
+        self.FBLogInButton.delegate = self
+        self.FBLogInButton.readPermissions = ["email", "public_profile"]
+        
+        //        let googleButton = GIDSignInButton()
+        //        googleButton.frame = CGRect(x: 16, y: 116 + 66, width: view.frame.width - 32, height: 50)
+        //        view.addSubview(googleButton)
+        GIDSignIn.sharedInstance().uiDelegate = self
+        
+        self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+    }
     
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
@@ -49,6 +77,14 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             self.showEmailAddress()
         }
     }
+    @IBAction func handleGoogleSignOut(_ sender: Any) {
+        GIDSignIn.sharedInstance().signOut()
+    }
+    
+    @IBAction func handleGoogleLogin(_ sender: Any) {
+        GIDSignIn.sharedInstance().signIn()
+    }
+    
     
     func showEmailAddress() {
         
@@ -113,26 +149,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         self.view.removeFromSuperview()
     }
    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.emailTextField.delegate = self
-        self.passwordTextField.delegate = self
-        
-        self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
-        print(bottomHeight.constant)
-        self.view.layoutIfNeeded()
-        
-        self.logInButton.isEnabled = false
-        self.logInButton.backgroundColor = UIColor.lightGray
-        self.FBLogInButton.delegate = self
-        self.FBLogInButton.readPermissions = ["email", "public_profile"]
-        
-        self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
-        self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
-    }
+
     
     @objc func keyboardWillShow(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, let keyboardSize = (userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {

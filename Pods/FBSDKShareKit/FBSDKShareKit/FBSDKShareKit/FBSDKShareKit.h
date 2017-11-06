@@ -45,7 +45,6 @@
 #import <FBSDKShareKit/FBSDKLikeObjectType.h>
 #import <FBSDKShareKit/FBSDKMessageDialog.h>
 #import <FBSDKShareKit/FBSDKShareButton.h>
-#import <FBSDKShareKit/FBSDKShareCameraEffectContent.h>
 #import <FBSDKShareKit/FBSDKShareDialog.h>
 #import <FBSDKShareKit/FBSDKShareDialogMode.h>
 #import <FBSDKShareKit/FBSDKShareMediaContent.h>

@@ -67,7 +67,6 @@ NSString *const FBSDKAppEventNameSpentCredits            = @"fb_mobile_spent_cre
 NSString *const FBSDKAppEventParameterNameCurrency               = @"fb_currency";
 NSString *const FBSDKAppEventParameterNameRegistrationMethod     = @"fb_registration_method";
 NSString *const FBSDKAppEventParameterNameContentType            = @"fb_content_type";
-NSString *const FBSDKAppEventParameterNameContent                = @"fb_content";
 NSString *const FBSDKAppEventParameterNameContentID              = @"fb_content_id";
 NSString *const FBSDKAppEventParameterNameSearchString           = @"fb_search_string";
 NSString *const FBSDKAppEventParameterNameSuccess                = @"fb_success";
@@ -178,7 +177,6 @@ NSString *const FBSDKAppEventsDialogShareContentTypeOpenGraph       = @"OpenGrap
 NSString *const FBSDKAppEventsDialogShareContentTypeStatus          = @"Status";
 NSString *const FBSDKAppEventsDialogShareContentTypePhoto           = @"Photo";
 NSString *const FBSDKAppEventsDialogShareContentTypeVideo           = @"Video";
-NSString *const FBSDKAppEventsDialogShareContentTypeCamera          = @"Camera";
 NSString *const FBSDKAppEventsDialogShareContentTypeUnknown         = @"Unknown";
 
 NSString *const FBSDKAppEventsLoggingResultNotification = @"com.facebook.sdk:FBSDKAppEventsLoggingResultNotification";
@@ -330,7 +328,7 @@ static NSString *g_overrideAppID = nil;
   [[FBSDKAppEvents singleton] instanceLogEvent:eventName
                                     valueToSum:valueToSum
                                     parameters:parameters
-                            isImplicitlyLogged:(BOOL)parameters[FBSDKAppEventParameterImplicitlyLogged]
+                            isImplicitlyLogged:NO
                                    accessToken:accessToken];
 }
 
