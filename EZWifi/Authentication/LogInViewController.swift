@@ -15,26 +15,29 @@ import GoogleSignIn
 
 protocol LogInViewControllerDelegate {
     func logInSuccess(_ controller: LogInViewController, user: User)
-    func goToSignUp(_ controller: LogInViewController)
 }
 
 class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButtonDelegate, GIDSignInUIDelegate {
 
-    @IBOutlet weak var FBLogInButton: FBSDKLoginButton!
+    @IBOutlet weak var socialMediaView: UIView!
     @IBOutlet weak var CustomFBLogInButton: UIButton!
     @IBOutlet weak var customGoogleButton: UIButton!
     
     @IBOutlet weak var emailTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var errorLabel: UILabel!
+    
     @IBOutlet weak var errorBoxHeightConstrant: NSLayoutConstraint!
-    @IBOutlet weak var logInButton: UIButton!
     @IBOutlet weak var bottomHeight: NSLayoutConstraint!
+    
+    @IBOutlet weak var logInButton: UIButton!
     
     var delegate: LogInViewControllerDelegate?
     
     var userEmail = ""
     var userPassword = ""
+    
+    var socialMediaViewZeroHeight: NSLayoutConstraint!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,19 +50,30 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         
         self.logInButton.isEnabled = false
         self.logInButton.backgroundColor = UIColor.lightGray
-        self.FBLogInButton.delegate = self
-        self.FBLogInButton.readPermissions = ["email", "public_profile"]
         
-        //        let googleButton = GIDSignInButton()
-        //        googleButton.frame = CGRect(x: 16, y: 116 + 66, width: view.frame.width - 32, height: 50)
-        //        view.addSubview(googleButton)
+        self.socialMediaViewZeroHeight = NSLayoutConstraint(item: self.socialMediaView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 0)
+
         GIDSignIn.sharedInstance().uiDelegate = self
         
         self.emailTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(notification:)), name: NSNotification.Name.UIKeyboardWillShow, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(notification:)), name: NSNotification.Name.UIKeyboardWillHide, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.GoogleDidLoggedIn(_:)), name: NSNotification.Name(rawValue: "GoogleLoggedIn"), object: nil)
+    }
+    
+    @IBAction func unwindToLogInView(segue: UIStoryboardSegue) {}
+    
+    @IBAction func closeButtonPressed(_ sender: Any) {
+         self.performSegue(withIdentifier: "unwindLogInToWifiView", sender: nil)
+    }
+    
+    @objc func GoogleDidLoggedIn(_ notification: NSNotification) {
+        if let user = notification.userInfo?["googleUser"] as? User {
+            self.performSegue(withIdentifier: "unwindLogInToWifiView", sender: nil)
+            self.delegate?.logInSuccess(self, user: user)
+        }
     }
     
     
@@ -77,14 +91,10 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             self.showEmailAddress()
         }
     }
-    @IBAction func handleGoogleSignOut(_ sender: Any) {
-        GIDSignIn.sharedInstance().signOut()
-    }
-    
+
     @IBAction func handleGoogleLogin(_ sender: Any) {
         GIDSignIn.sharedInstance().signIn()
     }
-    
     
     func showEmailAddress() {
         
@@ -99,15 +109,9 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 return
             }
             print("Sccessfully logged in with our user: ", user ?? "")
-            
-        })
-        
-        FBSDKGraphRequest(graphPath: "me", parameters: ["fields": "id, name, email"]).start(completionHandler: { (connection, result, error) -> Void in
-            if (error == nil) {
-                print(result ?? "")
-            } else {
-                print("Failed to start grapth request:", error as Any)
-                return
+            self.performSegue(withIdentifier: "unwindLogInToWifiView", sender: nil)
+            if let user = user {
+                self.delegate?.logInSuccess(self, user: user)
             }
         })
     }
@@ -134,7 +138,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 if error == nil {
                     print("Login success")
                     self.delegate?.logInSuccess(self, user: user!)
-                    self.view.removeFromSuperview()
+                    self.performSegue(withIdentifier: "unwindLogInViewToWifiView", sender: nil)
                 }
                 else {
                     print("error: invalid user")
@@ -145,14 +149,12 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     }
     
     @IBAction func signUpPressed(_ sender: UIButton) {
-        self.delegate?.goToSignUp(self)
-        self.view.removeFromSuperview()
+        self.performSegue(withIdentifier: "segueToSignUpView", sender: nil)
     }
    
-
-    
     @objc func keyboardWillShow(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, let keyboardSize = (userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
+            NSLayoutConstraint.activate([self.socialMediaViewZeroHeight])
             self.bottomHeight.constant = keyboardSize.height
             print(self.bottomHeight.constant)
             self.view.layoutIfNeeded()
@@ -162,6 +164,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     
     @objc func keyboardWillHide(notification: NSNotification) {
         UIView.animate(withDuration: 0.8) {
+            NSLayoutConstraint.deactivate([self.socialMediaViewZeroHeight])
             self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
             print(self.bottomHeight.constant)
             self.view.layoutIfNeeded()

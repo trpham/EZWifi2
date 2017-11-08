@@ -31,6 +31,13 @@ class CurrentUser {
         wifiList = []
     }
     
+    init(username: String, id: String) {
+        self.username = username
+        self.id = id
+        wifiList = []
+    }
+    
+    
     func clearWifi() {
         wifiList = []
     }

@@ -9,75 +9,148 @@
 import UIKit
 import FirebaseAuth
 import FirebaseDatabase
+import UPCarouselFlowLayout
 
-class WifiViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LogInViewControllerDelegate, SignUpViewControllerDelegate, QRGeneratorViewControllerDelegate {
+class WifiViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,
+    LogInViewControllerDelegate, QRGeneratorViewControllerDelegate {
     
-    func needUpdateData(_ controller: QRGeneratorViewController) {
-        self.tableView.reloadData()
-    }
+    @IBOutlet weak var collectionView: UICollectionView!
+    @IBOutlet weak var emptyListOverlayView: UIView!
     
-    @IBOutlet weak var tableView: UITableView!
-    
-    let codeGenerator = FCBBarCodeGenerator()
-    var currentUser: CurrentUser!
-
     var wifi: Wifi!
-    
+    var currentUser: CurrentUser!
+    let codeGenerator = FCBBarCodeGenerator()
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        currentUser = CurrentUser()
+        self.currentUser = CurrentUser()
         
-        self.tableView.delegate = self
-        self.tableView.dataSource = self
+        self.collectionView.delegate = self
+        self.collectionView.dataSource = self
         
-        self.tableView.tableFooterView = UIView(frame: CGRect.zero)
+        let layout = UPCarouselFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.itemSize = CGSize(width: UIScreen.main.bounds.width * 0.85, height: self.view.bounds.width)
+        self.collectionView.collectionViewLayout = layout
         
-//        self.tableView.estimatedRowHeight = 100
-//        self.tableView.rowHeight = UITableViewAutomaticDimension
+        // Use notification to receive signal from Sign Up because there is no direct segue to it.
+        NotificationCenter.default.addObserver(self, selector: #selector(self.signUpSuccess(_:)), name: NSNotification.Name(rawValue: "SignUpSuccess"), object: nil)
         
+        let tapOnCell = UITapGestureRecognizer(target: self, action: #selector(didTapItemAtIndexPath))
+        tapOnCell.numberOfTapsRequired = 1
+        self.collectionView.addGestureRecognizer(tapOnCell)
 
-        
-        
-//        try! Auth.auth().signOut()
         if (Auth.auth().currentUser == nil) {
-            showLogIn()
-//            updateData()
+            // Show the overlay page
+            self.emptyListOverlayView.isHidden = false
         } else {
-//            self.tableView.reloadData()
             updateData()
         }
     }
     
-  
+    // Unwind segue
+    @IBAction func unwindToWifiPage(segue: UIStoryboardSegue) {}
     
-    @IBAction func signOutPressed(_ sender: UIButton) {
+    // Nofification from Sign Up View
+    @objc func signUpSuccess(_ notification: NSNotification) {
+        if let user = notification.userInfo?["customUser"] as? User {
+            currentUser = CurrentUser(user: user)
+            updateData()
+        }
+    }
+  
+    // Update currentUser and reloadData on signing out.
+    @IBAction func signOutPressed(_ sender: Any) {
         try! Auth.auth().signOut()
         
         if (Auth.auth().currentUser == nil) {
-            showLogIn()
-//            tableView.reloadData()
-            updateData()
+            currentUser = CurrentUser()
+            self.collectionView.reloadData()
+            self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        
-//        if (Auth.auth().currentUser != nil) {
-        
-//            updateData()
-//            tableView.reloadData()
-//        }
+    // Either present Log In or Add Wifi page.
+    @IBAction func addButtonTapped(_ sender: Any) {
+        if (Auth.auth().currentUser == nil) {
+            performSegue(withIdentifier: "segueToLogInView", sender: nil)
+            updateData()
+        }
+        else {
+            self.wifi = nil
+            performSegue(withIdentifier: "toAddWifiView", sender: nil)
+        }
+    }
+    
+    func updateData() {
+        if (Auth.auth().currentUser != nil) {
+            currentUser.clearWifi()
+            currentUser.getWifi() { (wifis) in
+                if let wifis = wifis {
+                    for wifi in wifis {
+                        self.currentUser.addWifiToList(wifi: wifi)
+                    }
+                }
+                self.collectionView.reloadData()
+                self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
+
+            }
+        }
+    }
+    
+    // MARK: UICollectionViewDelegate
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        if currentUser.wifiList == nil {
+            return 0
+        }
+        return currentUser.wifiList.count
     }
     
     
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "wifiCollectionCell", for: indexPath) as! WifiCollectionViewCell
+        
+        if let wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath) {
+            cell.ssid.text = wifi.ssid
+            let QRSize = CGSize(width: cell.QRImageView.frame.width , height: cell.QRImageView.frame.height)
+            if let QRImage = codeGenerator.barcode(code: wifi.hashKey, type: .qrcode, size: QRSize) {
+                cell.QRImageView.image = QRImage
+            }
+        }
+        
+        return cell
+    }
     
-    @IBAction func addButtonTapped(_ sender: UIButton) {
-        self.wifi = nil
+    // Replace collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
+    @objc func didTapItemAtIndexPath(sender: UITapGestureRecognizer) {
+        let point = sender.location(in: self.collectionView)
+        let indexPath = collectionView.indexPathForItem(at: point)
+        self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath!)
         performSegue(withIdentifier: "toAddWifiView", sender: nil)
     }
     
+//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+//        self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath)
+//        performSegue(withIdentifier: "toAddWifiView", sender: nil)
+//    }
+    
+    // MARK: QRGeneratorViewControllerDelegate
+    
+    func needUpdateData(_ controller: QRGeneratorViewController) {
+        self.collectionView.reloadData()
+        self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
+    }
+    
+    // MARK: LogInViewControllerDelegate
+    
+    func logInSuccess(_ controller: LogInViewController, user: User) {
+        currentUser = CurrentUser(user: user)
+        self.updateData()
+    }
+
+    // SEGUE
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let identifier = segue.identifier {
             if identifier == "toAddWifiView" {
@@ -92,119 +165,12 @@ class WifiViewController: UIViewController, UITableViewDelegate, UITableViewData
                     dest.currentUser = self.currentUser
                 }
             }
-        }
-    }
-    
-    
-    func updateData() {
-        
-        if (Auth.auth().currentUser != nil) {
-        
-            currentUser.clearWifi()
-            
-            currentUser.getWifi() { (wifis) in
-                if let wifis = wifis {
-                    for wifi in wifis {
-                        self.currentUser.addWifiToList(wifi: wifi)
-                    }
-                    
-                    print("999: \(self.currentUser.wifiList)")
-                    
+            else if identifier == "segueToLogInView" {
+                if let dest = segue.destination as? LogInViewController {
+                    dest.delegate = self
                 }
-                self.tableView.reloadData()
             }
         }
-    }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        if currentUser.username == nil {
-            print("1111 wifiList for nil: \(currentUser.wifiList)")
-        } else {
-            print("1111 wifiList for \(currentUser.username): \(currentUser.wifiList)")
-        }
-        
-        if currentUser.wifiList == nil {
-            return 0
-        }
-        return currentUser.wifiList.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "WifiTableViewCell", for: indexPath) as! WifiTableViewCell
-    
-        if let wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath) {
-  
-            cell.ssid.text = wifi.ssid
-            cell.password.text = wifi.password
-            
-            let QRSize = CGSize(width: cell.QRImageView.frame.width , height: cell.QRImageView.frame.height)
-            
-            if let QRImage = codeGenerator.barcode(code: wifi.hashKey, type: .qrcode, size: QRSize) {
-                cell.QRImageView.image = QRImage
-            }
-        } 
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath)
-        performSegue(withIdentifier: "toAddWifiView", sender: nil)
-    }
-    
-    @IBAction func unwindToWifiPage(segue: UIStoryboardSegue) {
-//        updateData()
-    }
-    
-    func showLogIn() {
-        let logInViewController = storyboard?.instantiateViewController(withIdentifier: "logInViewController") as! LogInViewController
-        
-        logInViewController.delegate = self
-        
-        logInViewController.willMove(toParentViewController: self)
-        self.view.addSubview(logInViewController.view)
-        self.addChildViewController(logInViewController)
-        logInViewController.didMove(toParentViewController: self)
-    }
-    
-    func showSignUp() {
-        let signUpViewController = storyboard?.instantiateViewController(withIdentifier: "signUpViewController") as! SignUpViewController
-        
-        signUpViewController.delegate = self
-        
-        signUpViewController.willMove(toParentViewController: self)
-        self.view.addSubview(signUpViewController.view)
-        self.addChildViewController(signUpViewController)
-        signUpViewController.didMove(toParentViewController: self)
-    }
-    
-    
-    func logInSuccess(_ controller: LogInViewController, user: User) {
-        currentUser = CurrentUser(user: user)
-        self.updateData()
-//        self.tableView.reloadData()
-    }
-    
-    func goToSignUp(_ controller: LogInViewController) {
-        showSignUp()
-    }
-    
-    func signUpSuccess(_ controller: SignUpViewController) {
-//        currentUser = CurrentUser()
-        updateData()
-    }
-    
-    func goToLogIn(_ controller: SignUpViewController) {
-        showLogIn()
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
     }
 
 }

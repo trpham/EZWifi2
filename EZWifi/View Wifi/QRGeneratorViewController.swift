@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import SwiftHTTP
 import SwiftHash
 import FirebaseAuth
 import HxColor
@@ -183,11 +182,11 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         return copiedImage!
     }
     
-    @IBAction func doneButtonTapped(_ sender: UIButton) {
+    @IBAction func doneButtonTapped(_ sender: Any) {
         self.performSegue(withIdentifier: "unwindToWifi", sender: self)
     }
     
-    @IBAction func editButtonTapped(_ sender: UIButton) {
+    @IBAction func editButtonTapped(_ sender: Any) {
         NSLayoutConstraint.deactivate([self.wifiInputViewZeroHeight])
     }
     

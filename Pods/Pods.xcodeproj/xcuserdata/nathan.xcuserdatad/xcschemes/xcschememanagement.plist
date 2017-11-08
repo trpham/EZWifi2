@@ -9,6 +9,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>CenteredCollectionView.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>FBSDKCoreKit.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -64,12 +69,12 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SwiftHTTP.xcscheme</key>
+		<key>SwiftHash.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
 		</dict>
-		<key>SwiftHash.xcscheme</key>
+		<key>UPCarouselFlowLayout.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>

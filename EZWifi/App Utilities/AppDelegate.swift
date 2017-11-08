@@ -19,27 +19,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        UserDefaults.standard.setValue(false, forKey:"_UIConstraintBasedLayoutLogUnsatisfiable")
         
         GIDSignIn.sharedInstance().clientID = FirebaseApp.app()?.options.clientID
         GIDSignIn.sharedInstance().delegate = self
         
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
+        let navigationBarAppearace = UINavigationBar.appearance()
+        navigationBarAppearace.tintColor = UIColor(0xffffff)
+        navigationBarAppearace.barTintColor = UIColor(0x007AFF)
+        navigationBarAppearace.titleTextAttributes = [
+            NSAttributedStringKey.font: UIFont(name: "NunitoSans-Bold", size: 20)!,
+            NSAttributedStringKey.foregroundColor:UIColor.white]
+        navigationBarAppearace.isTranslucent = false
+        
+        let newFont = UIFont(name: "NunitoSans-Bold", size: 16.0)!
+        let color = UIColor.white
+        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: color, NSAttributedStringKey.font: newFont], for: .normal)
+
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        
         UITabBar.appearance().barTintColor = UIColor.white
-        UITabBar.appearance().tintColor = UIColor(0x0971B2)
+        UITabBar.appearance().tintColor = UIColor(0x007AFF)
 //        UITabBar.appearance().layer.borderWidth = 20.0
 //        UITabBar.appearance().clipsToBounds = true
+        
+        UserDefaults.standard.setValue(false, forKey:"_UIConstraintBasedLayoutLogUnsatisfiable")
         return true
     }
     
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!, withError error: Error?) {
-        // ...
         if let error = error {
             print("Failed to log into Google: ", error)
             return
         }
-        print("123")
         print("Successfully logged into Google: ", user)
         
         guard let idToken = user.authentication.idToken else { return }
@@ -53,21 +66,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
             }
             guard let uid = user?.uid else { return }
             print("Sucessfully logged into Firebase with Google ", uid)
+            
+            if let user = user {
+                let GoogleUser:[String: User] = ["googleUser": user]
+                NotificationCenter.default.post(name: NSNotification.Name(rawValue: "GoogleLoggedIn"), object: self, userInfo: GoogleUser)}
             })
     }
     
     func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!, withError error: Error!) {
-        // Perform any operations when the user disconnects from app here.
-        // ...
     }
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:]) -> Bool {
-        let handled = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        let facebookDidHandle = FBSDKApplicationDelegate.sharedInstance().application(app, open: url, sourceApplication: options[UIApplicationOpenURLOptionsKey.sourceApplication] as! String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
         
-         GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: [:])
-
-
-        return handled
+        let googleDidHandle = GIDSignIn.sharedInstance().handle(url, sourceApplication:options[UIApplicationOpenURLOptionsKey.sourceApplication] as? String, annotation: options[UIApplicationOpenURLOptionsKey.annotation])
+        
+        return googleDidHandle || facebookDidHandle
     }
     
 

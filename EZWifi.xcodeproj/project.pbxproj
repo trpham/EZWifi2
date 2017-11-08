@@ -56,6 +56,8 @@
 		D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */; };
 		D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */; };
 		D8A1942C1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A1942B1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift */; };
+		D8A60A6C1FB122D500FDABAF /* AboutViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A60A6B1FB122D500FDABAF /* AboutViewController.swift */; };
+		D8A60A6F1FB16D7B00FDABAF /* WifiCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8A60A6E1FB16D7B00FDABAF /* WifiCollectionViewCell.swift */; };
 		D8B4E1D11FAD7F8A00BDADCF /* PrintPreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4E1D01FAD7F8A00BDADCF /* PrintPreviewViewController.swift */; };
 		D8B4E1D51FAE5FBC00BDADCF /* ReaderOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8B4E1D41FAE5FBC00BDADCF /* ReaderOverlayView.swift */; };
 		D8EA2FFD1FA84D640019F0B9 /* DesignableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */; };
@@ -117,6 +119,8 @@
 		D8946BF51F94338E003B9A59 /* QRGeneratorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRGeneratorViewController.swift; sourceTree = "<group>"; };
 		D8946BF71F94368B003B9A59 /* FCBBarCodeGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FCBBarCodeGenerator.swift; sourceTree = "<group>"; };
 		D8A1942B1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabBarViewController.swift; sourceTree = "<group>"; };
+		D8A60A6B1FB122D500FDABAF /* AboutViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutViewController.swift; sourceTree = "<group>"; };
+		D8A60A6E1FB16D7B00FDABAF /* WifiCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiCollectionViewCell.swift; sourceTree = "<group>"; };
 		D8B4E1D01FAD7F8A00BDADCF /* PrintPreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrintPreviewViewController.swift; sourceTree = "<group>"; };
 		D8B4E1D41FAE5FBC00BDADCF /* ReaderOverlayView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReaderOverlayView.swift; sourceTree = "<group>"; };
 		D8EA2FFC1FA84D640019F0B9 /* DesignableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DesignableView.swift; sourceTree = "<group>"; };
@@ -204,6 +208,7 @@
 			children = (
 				D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */,
 				D83EC69D1FA59A3D000A2EA4 /* WifiTableViewCell.swift */,
+				D8A60A6E1FB16D7B00FDABAF /* WifiCollectionViewCell.swift */,
 			);
 			path = "Wifi Table";
 			sourceTree = "<group>";
@@ -230,6 +235,7 @@
 		D81786801F92E86A00795B5E /* EZWifi */ = {
 			isa = PBXGroup;
 			children = (
+				D8A60A6A1FB1227300FDABAF /* About */,
 				D8B4E1CB1FAD7B0600BDADCF /* View Wifi */,
 				D8EA2FFB1FA84CD50019F0B9 /* Utilities */,
 				D80B3F3E1FA5452F0010D3B7 /* Wifi Table */,
@@ -282,6 +288,14 @@
 				D841131C1FA8707500BB45EB /* NunitoSans-SemiBoldItalic.ttf */,
 			);
 			path = Fonts;
+			sourceTree = "<group>";
+		};
+		D8A60A6A1FB1227300FDABAF /* About */ = {
+			isa = PBXGroup;
+			children = (
+				D8A60A6B1FB122D500FDABAF /* AboutViewController.swift */,
+			);
+			path = About;
 			sourceTree = "<group>";
 		};
 		D8B4E1CB1FAD7B0600BDADCF /* View Wifi */ = {
@@ -339,6 +353,7 @@
 				TargetAttributes = {
 					D817867D1F92E86A00795B5E = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.HotspotConfiguration = {
@@ -449,6 +464,7 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-EZWifi/Pods-EZWifi-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework",
+				"${BUILT_PRODUCTS_DIR}/CenteredCollectionView/CenteredCollectionView.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework",
 				"${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework",
@@ -459,14 +475,15 @@
 				"${BUILT_PRODUCTS_DIR}/JSSAlertView/JSSAlertView.framework",
 				"${BUILT_PRODUCTS_DIR}/PDFGenerator/PDFGenerator.framework",
 				"${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftHash/SwiftHash.framework",
+				"${BUILT_PRODUCTS_DIR}/UPCarouselFlowLayout/UPCarouselFlowLayout.framework",
 				"${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework",
 				"${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Bolts.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/CenteredCollectionView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKCoreKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKLoginKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FBSDKShareKit.framework",
@@ -477,8 +494,8 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/JSSAlertView.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PDFGenerator.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RNCryptor.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHTTP.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHash.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UPCarouselFlowLayout.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/leveldb.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/nanopb.framework",
 			);
@@ -518,6 +535,7 @@
 				D8946BF61F94338E003B9A59 /* QRGeneratorViewController.swift in Sources */,
 				D8B4E1D51FAE5FBC00BDADCF /* ReaderOverlayView.swift in Sources */,
 				D8B4E1D11FAD7F8A00BDADCF /* PrintPreviewViewController.swift in Sources */,
+				D8A60A6F1FB16D7B00FDABAF /* WifiCollectionViewCell.swift in Sources */,
 				D83EC69E1FA59A3D000A2EA4 /* WifiTableViewCell.swift in Sources */,
 				D8946BF81F94368B003B9A59 /* FCBBarCodeGenerator.swift in Sources */,
 				D80B3F3B1FA535100010D3B7 /* Wifi.swift in Sources */,
@@ -526,6 +544,7 @@
 				D8A1942C1FAEC7EB006EC9C5 /* CustomTabBarViewController.swift in Sources */,
 				D80B3F391FA533050010D3B7 /* CurrentUser.swift in Sources */,
 				D81786821F92E86A00795B5E /* AppDelegate.swift in Sources */,
+				D8A60A6C1FB122D500FDABAF /* AboutViewController.swift in Sources */,
 				D80B3F401FA5454B0010D3B7 /* WifiViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -664,6 +683,7 @@
 			baseConfigurationReference = 8823F97C24AFBE3243829763 /* Pods-EZWifi.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EZWifi/EZWifi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
@@ -673,6 +693,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = EZTeam.EZWifi;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -683,6 +704,7 @@
 			baseConfigurationReference = 804E02725273BE47231CF8CF /* Pods-EZWifi.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_ENTITLEMENTS = EZWifi/EZWifi.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;

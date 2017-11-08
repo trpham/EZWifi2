@@ -7,7 +7,6 @@ target 'EZWifi' do
   use_frameworks!
 
   # Pods for EZWifi
-  pod 'SwiftHTTP', '~> 3.0.0'
   pod 'SwiftHash', git: 'https://github.com/onmyway133/SwiftHash'
   pod 'Firebase/Core'
   pod 'Firebase/Auth'
@@ -21,6 +20,8 @@ target 'EZWifi' do
   pod 'FBSDKCoreKit', '~> 4.24.0'
   pod 'FBSDKLoginKit', '~> 4.24.0'
   pod 'FBSDKShareKit', '~> 4.24.0'
+  pod "CenteredCollectionView"
+  pod "UPCarouselFlowLayout"
 
 
 

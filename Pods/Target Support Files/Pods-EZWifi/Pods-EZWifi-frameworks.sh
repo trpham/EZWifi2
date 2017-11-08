@@ -103,6 +103,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CenteredCollectionView/CenteredCollectionView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework"
@@ -113,13 +114,14 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/JSSAlertView/JSSAlertView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PDFGenerator/PDFGenerator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHash/SwiftHash.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/UPCarouselFlowLayout/UPCarouselFlowLayout.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bolts/Bolts.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/CenteredCollectionView/CenteredCollectionView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKCoreKit/FBSDKCoreKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKLoginKit/FBSDKLoginKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/FBSDKShareKit/FBSDKShareKit.framework"
@@ -130,8 +132,8 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/JSSAlertView/JSSAlertView.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/PDFGenerator/PDFGenerator.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/RNCryptor/RNCryptor.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SwiftHTTP/SwiftHTTP.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHash/SwiftHash.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/UPCarouselFlowLayout/UPCarouselFlowLayout.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/leveldb-library/leveldb.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/nanopb/nanopb.framework"
 fi

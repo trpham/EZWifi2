@@ -8,17 +8,13 @@
 
 import UIKit
 import AVFoundation
-import SwiftHTTP
 import NetworkExtension
 import JSSAlertView
-//import SwiftHTTP
-
 
 class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
 
-    @IBOutlet weak var navigationView: UIView!
+    @IBOutlet weak var priorScanOverlay: UIView!
     @IBOutlet weak var startButton: UIButton!
- 
     @IBOutlet weak var scanView: UIView!
     @IBOutlet weak var bottomOverlay: UIView!
     @IBOutlet weak var topOverLay: UIView!
@@ -33,7 +29,8 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
     
     @IBAction func startButtonTapped(_ sender: Any) {
         self.blurView.isHidden = true
-        self.startButton.isHidden = true
+        self.priorScanOverlay.isHidden = true
+//        self.startButton.isHidden = true
         
         // Add captureMetadataOutput here because we don't want the camera to capture any code prior to this button pressed.
         // Initialize a AVCaptureMetadataOutput object and set it as the output device to the capture session.
@@ -43,6 +40,15 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
         // Set delegate and use the default dispatch queue to execute the call back
         captureMetadataOutput.setMetadataObjectsDelegate(self, queue: DispatchQueue.main)
         captureMetadataOutput.metadataObjectTypes = [AVMetadataObject.ObjectType.qr]
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let logo = UIImage(named: "logo-ezwifi")
+        let imageView = UIImageView(image: logo)
+        imageView.contentMode = .scaleAspectFit // set imageview's content mode
+        self.navigationItem.titleView = imageView
     }
     
     override func viewDidLoad() {
@@ -65,8 +71,6 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
             videoPreviewLayer?.frame = view.layer.bounds
             view.layer.addSublayer(videoPreviewLayer!)
-            
-            
             
             // Setup dark background overlay surround scanView
             self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
@@ -100,10 +104,8 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             blurView.frame = self.view.bounds
             blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
             self.view.addSubview(blurView)
-            
-            self.view.addSubview(startButton)
-            
-            view.bringSubview(toFront: navigationView)
+            self.view.addSubview(self.priorScanOverlay)
+//            self.view.addSubview(startButton)
         }
         catch {
             print(error)
