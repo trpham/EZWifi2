@@ -100,7 +100,7 @@ class SignUpViewController: UIViewController, UITextFieldDelegate {
             return
         }
         self.signUpButton.isEnabled = true
-        self.signUpButton.backgroundColor = UIColor(0x0000FF)
+        self.signUpButton.backgroundColor = UIColor(0x007AFF)
     }
     
     // Hide keyboard when user touches outsite

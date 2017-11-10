@@ -203,14 +203,14 @@
 			path = "Tab Bar";
 			sourceTree = "<group>";
 		};
-		D80B3F3E1FA5452F0010D3B7 /* Wifi Table */ = {
+		D80B3F3E1FA5452F0010D3B7 /* Wifi Collection */ = {
 			isa = PBXGroup;
 			children = (
 				D80B3F3F1FA5454B0010D3B7 /* WifiViewController.swift */,
 				D83EC69D1FA59A3D000A2EA4 /* WifiTableViewCell.swift */,
 				D8A60A6E1FB16D7B00FDABAF /* WifiCollectionViewCell.swift */,
 			);
-			path = "Wifi Table";
+			path = "Wifi Collection";
 			sourceTree = "<group>";
 		};
 		D81786751F92E86A00795B5E = {
@@ -238,7 +238,7 @@
 				D8A60A6A1FB1227300FDABAF /* About */,
 				D8B4E1CB1FAD7B0600BDADCF /* View Wifi */,
 				D8EA2FFB1FA84CD50019F0B9 /* Utilities */,
-				D80B3F3E1FA5452F0010D3B7 /* Wifi Table */,
+				D80B3F3E1FA5452F0010D3B7 /* Wifi Collection */,
 				D80B3F361FA532A90010D3B7 /* Models */,
 				D80B3F351FA5329F0010D3B7 /* Constants */,
 				D80B3F2F1FA531B40010D3B7 /* Authentication */,

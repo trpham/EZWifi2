@@ -26,23 +26,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, GIDSignInDelegate {
         FBSDKApplicationDelegate.sharedInstance().application(application, didFinishLaunchingWithOptions: launchOptions)
         
         let navigationBarAppearace = UINavigationBar.appearance()
-        navigationBarAppearace.tintColor = UIColor(0xffffff)
-        navigationBarAppearace.barTintColor = UIColor(0x007AFF)
+        
+        navigationBarAppearace.tintColor = UIColor(0x007AFF)
+//        navigationBarAppearace.barTintColor = UIColor(0x007AFF)
         navigationBarAppearace.titleTextAttributes = [
             NSAttributedStringKey.font: UIFont(name: "NunitoSans-Bold", size: 20)!,
-            NSAttributedStringKey.foregroundColor:UIColor.white]
+            NSAttributedStringKey.foregroundColor:UIColor(0x007AFF)]
+        
+//        navigationBarAppearace.tintColor = UIColor(0xffffff)
+//        navigationBarAppearace.barTintColor = UIColor(0x007AFF)
+//        navigationBarAppearace.titleTextAttributes = [
+//            NSAttributedStringKey.font: UIFont(name: "NunitoSans-Bold", size: 20)!,
+//            NSAttributedStringKey.foregroundColor:UIColor.white]
+        
         navigationBarAppearace.isTranslucent = false
         
         let newFont = UIFont(name: "NunitoSans-Bold", size: 16.0)!
-        let color = UIColor.white
+        let color = UIColor(0x007AFF)
         UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: color, NSAttributedStringKey.font: newFont], for: .normal)
+        
+//        let newFont = UIFont(name: "NunitoSans-Bold", size: 16.0)!
+//        let color = UIColor.white
+//        UIBarButtonItem.appearance(whenContainedInInstancesOf: [UINavigationBar.classForCoder() as! UIAppearanceContainer.Type]).setTitleTextAttributes([NSAttributedStringKey.foregroundColor: color, NSAttributedStringKey.font: newFont], for: .normal)
 
-        UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+        UIApplication.shared.statusBarStyle = UIStatusBarStyle.default
         
         UITabBar.appearance().barTintColor = UIColor.white
         UITabBar.appearance().tintColor = UIColor(0x007AFF)
 //        UITabBar.appearance().layer.borderWidth = 20.0
 //        UITabBar.appearance().clipsToBounds = true
+        
+//        UIButton.appearance(whenContainedInInstancesOf: [UINavigationBar.self]).tintColor = .blue
         
         UserDefaults.standard.setValue(false, forKey:"_UIConstraintBasedLayoutLogUnsatisfiable")
         return true

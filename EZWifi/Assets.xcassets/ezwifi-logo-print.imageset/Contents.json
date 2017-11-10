@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "logo_airbnb.png",
+      "filename" : "ezwifi-logo-print.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "logo_airbnb@2x.png",
       "scale" : "2x"
     },
     {

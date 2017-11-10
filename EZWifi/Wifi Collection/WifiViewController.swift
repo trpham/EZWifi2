@@ -17,6 +17,8 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var emptyListOverlayView: UIView!
     
+    @IBOutlet weak var signInAndSignOutButton: UIBarButtonItem!
+    
     var wifi: Wifi!
     var currentUser: CurrentUser!
     let codeGenerator = FCBBarCodeGenerator()
@@ -43,8 +45,10 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
 
         if (Auth.auth().currentUser == nil) {
             // Show the overlay page
+            signInAndSignOutButton.title = "Sign In"
             self.emptyListOverlayView.isHidden = false
         } else {
+            signInAndSignOutButton.title = "Sign Out"
             updateData()
         }
     }
@@ -57,19 +61,39 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
         if let user = notification.userInfo?["customUser"] as? User {
             currentUser = CurrentUser(user: user)
             updateData()
+            signInAndSignOutButton.title = "Sign In"
         }
     }
-  
+    
     // Update currentUser and reloadData on signing out.
-    @IBAction func signOutPressed(_ sender: Any) {
-        try! Auth.auth().signOut()
-        
-        if (Auth.auth().currentUser == nil) {
-            currentUser = CurrentUser()
-            self.collectionView.reloadData()
-            self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
+    @IBAction func signInOutPressed(_ sender: UIBarButtonItem) {
+        if signInAndSignOutButton.title == "Sign In" {
+            if (Auth.auth().currentUser == nil) {
+                performSegue(withIdentifier: "segueToLogInView", sender: nil)
+                updateData()
+            }
+        }
+        else if signInAndSignOutButton.title == "Sign Out" {
+            try! Auth.auth().signOut()
+            
+            if (Auth.auth().currentUser == nil) {
+                currentUser = CurrentUser()
+                self.collectionView.reloadData()
+                self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
+                signInAndSignOutButton.title = "Sign In"
+            }
         }
     }
+    
+//    @IBAction func signOutPressed(_ sender: Any) {
+//        try! Auth.auth().signOut()
+//
+//        if (Auth.auth().currentUser == nil) {
+//            currentUser = CurrentUser()
+//            self.collectionView.reloadData()
+//            self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
+//        }
+//    }
     
     // Either present Log In or Add Wifi page.
     @IBAction func addButtonTapped(_ sender: Any) {
@@ -148,6 +172,7 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     func logInSuccess(_ controller: LogInViewController, user: User) {
         currentUser = CurrentUser(user: user)
         self.updateData()
+        signInAndSignOutButton.title = "Sign Out"
     }
 
     // SEGUE

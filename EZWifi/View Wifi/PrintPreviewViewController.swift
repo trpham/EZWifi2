@@ -10,18 +10,22 @@ import UIKit
 import WebKit
 import PDFGenerator
 
-class PrintPreviewViewController: UIViewController, WKNavigationDelegate {
+class PrintPreviewViewController: UIViewController, WKNavigationDelegate, UIScrollViewDelegate {
     
     @IBOutlet weak var printView: UIView!
     @IBOutlet weak var qrImageView: UIImageView!
     var image: UIImage!
     
+    @IBOutlet weak var scrollView: UIScrollView!
     var printPDF: NSData!
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.qrImageView.image = image
-        generatePDF()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -41,8 +45,21 @@ class PrintPreviewViewController: UIViewController, WKNavigationDelegate {
     }
   
     @IBAction func shareButtonTapped(_ sender: UIButton) {
+        
+        generatePDF()
+        
+//        self.printView.setNeedsDisplay()
+        
         let activityViewController = UIActivityViewController(activityItems: [printPDF], applicationActivities: nil)
+    
+        
         activityViewController.popoverPresentationController?.sourceView = self.view
-        self.present(activityViewController, animated: true, completion: nil)
+        
+//        UINavigationBar.appearance().barTintColor = UIColor.black
+        
+        self.present(activityViewController, animated: true, completion: {
+//             UINavigationBar.appearance().barTintColor = UIColor(0x007AFF)
+            self.performSegue(withIdentifier: "unwindPreviewPageToWifiPage", sender: nil)
+        })
     }
 }

@@ -45,7 +45,7 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        let logo = UIImage(named: "logo-ezwifi")
+        let logo = UIImage(named: "ezwifi-logo-main-page")
         let imageView = UIImageView(image: logo)
         imageView.contentMode = .scaleAspectFit // set imageview's content mode
         self.navigationItem.titleView = imageView
@@ -73,10 +73,10 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             view.layer.addSublayer(videoPreviewLayer!)
             
             // Setup dark background overlay surround scanView
-            self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            self.bottomOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            self.leftOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
-            self.rightOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.5)
+            self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            self.bottomOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            self.leftOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+            self.rightOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
             self.topOverLay.clipsToBounds = true
             self.bottomOverlay.clipsToBounds = true
             self.leftOverlay.clipsToBounds = true

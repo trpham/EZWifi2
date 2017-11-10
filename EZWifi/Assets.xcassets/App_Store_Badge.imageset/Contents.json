@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "logo_pinterest.png",
+      "filename" : "App_Store_Badge.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "logo_pinterest@2x.png",
       "scale" : "2x"
     },
     {

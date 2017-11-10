@@ -44,7 +44,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
         self.emailTextField.delegate = self
         self.passwordTextField.delegate = self
         
-        self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
+        self.bottomHeight.constant = 0
         print(bottomHeight.constant)
         self.view.layoutIfNeeded()
         
@@ -75,7 +75,6 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             self.delegate?.logInSuccess(self, user: user)
         }
     }
-    
     
     func loginButtonDidLogOut(_ loginButton: FBSDKLoginButton!) {
         print("Did log out of facebook!")
@@ -155,8 +154,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @objc func keyboardWillShow(notification: NSNotification) {
         if let userInfoDict = notification.userInfo, let keyboardSize = (userInfoDict[UIKeyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue {
             NSLayoutConstraint.activate([self.socialMediaViewZeroHeight])
-            self.bottomHeight.constant = keyboardSize.height
-            print(self.bottomHeight.constant)
+            self.bottomHeight.constant = keyboardSize.height + 8
             self.view.layoutIfNeeded()
         }
     }
@@ -165,7 +163,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
     @objc func keyboardWillHide(notification: NSNotification) {
         UIView.animate(withDuration: 0.8) {
             NSLayoutConstraint.deactivate([self.socialMediaViewZeroHeight])
-            self.bottomHeight.constant = self.tabBarController?.tabBar.frame.height ?? 49.0
+            self.bottomHeight.constant = 0
             print(self.bottomHeight.constant)
             self.view.layoutIfNeeded()
         }
@@ -185,7 +183,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
             return
         }
         self.logInButton.isEnabled = true
-        self.logInButton.backgroundColor = UIColor(0x0000FF)
+        self.logInButton.backgroundColor = UIColor(0x007AFF)
     }
     
     override func viewWillAppear(_ animated: Bool) {

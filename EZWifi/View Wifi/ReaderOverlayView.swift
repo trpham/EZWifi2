@@ -33,8 +33,8 @@ public final class ReaderOverlayView: UIView {
     overlay.backgroundColor  = UIColor.clear.cgColor
     overlay.fillColor       = UIColor.clear.cgColor
     overlay.strokeColor     = UIColor.white.cgColor
-    overlay.lineWidth       = 5
-    overlay.lineDashPattern = [5.0, 5.0]
+    overlay.lineWidth       = 10
+    overlay.lineDashPattern = [10.0, 10.0]
     overlay.lineDashPhase   = 0
 
     return overlay

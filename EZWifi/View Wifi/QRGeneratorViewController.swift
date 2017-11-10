@@ -54,7 +54,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     func enable(button: UIButton, status: Bool) {
         button.isEnabled = status
         if (status) {
-            button.backgroundColor = UIColor(0x0000FF)
+            button.backgroundColor = UIColor(0x007AFF)
         } else {
             button.backgroundColor = UIColor.lightGray
         }
@@ -128,7 +128,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             return
         }
         self.generateQRButton.isEnabled = true
-        self.generateQRButton.backgroundColor = UIColor(0x0000FF)
+        self.generateQRButton.backgroundColor = UIColor(0x007AFF)
     }
     
 
@@ -147,7 +147,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         NSLayoutConstraint.activate([self.wifiInputViewZeroHeight])
 
         let wifiHash = encryptWifi(text: ssid + "|||" + password + "|||" + self.currentUser.id)
-        let QRSize = CGSize(width: 500, height: 500)
+        let QRSize = CGSize(width: 200, height: 200)
         let QRImage = codeGenerator.barcode(code: wifiHash, type: .qrcode, size: QRSize)
         self.QRCodeImageView.image = QRImage
     
