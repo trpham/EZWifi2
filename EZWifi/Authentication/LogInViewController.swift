@@ -137,7 +137,7 @@ class LogInViewController: UIViewController, UITextFieldDelegate, FBSDKLoginButt
                 if error == nil {
                     print("Login success")
                     self.delegate?.logInSuccess(self, user: user!)
-                    self.performSegue(withIdentifier: "unwindLogInViewToWifiView", sender: nil)
+                    self.performSegue(withIdentifier: "unwindLogInToWifiView", sender: nil)
                 }
                 else {
                     print("error: invalid user")

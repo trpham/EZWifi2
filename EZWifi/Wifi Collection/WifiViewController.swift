@@ -61,7 +61,7 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
         if let user = notification.userInfo?["customUser"] as? User {
             currentUser = CurrentUser(user: user)
             updateData()
-            signInAndSignOutButton.title = "Sign In"
+            signInAndSignOutButton.title = "Sign Out"
         }
     }
     
@@ -87,7 +87,6 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     
 //    @IBAction func signOutPressed(_ sender: Any) {
 //        try! Auth.auth().signOut()
-//
 //        if (Auth.auth().currentUser == nil) {
 //            currentUser = CurrentUser()
 //            self.collectionView.reloadData()
@@ -150,9 +149,10 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     // Replace collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath)
     @objc func didTapItemAtIndexPath(sender: UITapGestureRecognizer) {
         let point = sender.location(in: self.collectionView)
-        let indexPath = collectionView.indexPathForItem(at: point)
-        self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath!)
-        performSegue(withIdentifier: "toAddWifiView", sender: nil)
+        if let indexPath = collectionView.indexPathForItem(at: point) {
+            self.wifi = currentUser.getWifiFromIndexPath(indexPath: indexPath)
+            performSegue(withIdentifier: "toAddWifiView", sender: nil)
+        }
     }
     
 //    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

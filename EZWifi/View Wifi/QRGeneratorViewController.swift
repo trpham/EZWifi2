@@ -23,7 +23,11 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     @IBOutlet weak var generateQRButton: UIButton!
     
     @IBOutlet weak var ssidLabel: UILabel!
-    @IBOutlet weak var passwordLabel: UILabel!
+    
+    @IBOutlet weak var passwordButton: UIButton!
+//    @IBOutlet weak var passwordLabel: UILabel!
+    var passwordString: String!
+    
     @IBOutlet weak var QRCodeImageView: UIImageView!
     
     @IBOutlet weak var wifiInputView: UIView!
@@ -82,7 +86,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             self.passwordTextField.text = wifi.password
             
             self.ssidLabel.text = wifi.ssid
-            self.passwordLabel.text = wifi.password
+            self.passwordString = wifi.password
             
             let QRSize = CGSize(width: 500, height: 500)
             let QRImage = codeGenerator.barcode(code: wifi.hashKey, type: .qrcode, size: QRSize)
@@ -106,6 +110,14 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
     }
     
+    @IBAction func showPassword(_ sender: UIButton) {
+        if self.passwordButton.titleLabel?.text == "Show Password" {
+            self.passwordButton.setTitle(self.passwordString, for: .normal)
+        }
+        else {
+            self.passwordButton.setTitle("Show Password", for: .normal)
+        }
+    }
     // Set dismiss keyboard on tapping
     @objc func scrollViewTapped() {
         self.view.endEditing(true)
@@ -138,7 +150,7 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         guard let password = passwordTextField.text else { return }
         
         self.ssidLabel.text = ssid
-        self.passwordLabel.text = password
+        self.passwordString = password
 
         self.QRView.isHidden = false
         self.downloadView.isHidden = false

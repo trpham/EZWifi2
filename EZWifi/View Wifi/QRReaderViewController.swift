@@ -8,7 +8,7 @@
 
 import UIKit
 import AVFoundation
-import NetworkExtension
+//import NetworkExtension
 import JSSAlertView
 
 class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDelegate {
@@ -55,62 +55,62 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
         super.viewDidLoad()
         
         // Get an instance of the AVCaptureDevice class to initialize a device object with media type as video.
-        let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
+//        let captureDevice = AVCaptureDevice.default(for: AVMediaType.video)
         
-        do {
-            // Get an instance of the AVCaptureDeviceInput using the previous device object.
-            let input = try AVCaptureDeviceInput(device: captureDevice!)
-            
-            // Initialize the captureSession object.
-            captureSession = AVCaptureSession()
-            
-            captureSession?.addInput(input)
-            
-            // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
-            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
-            videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
-            videoPreviewLayer?.frame = view.layer.bounds
-            view.layer.addSublayer(videoPreviewLayer!)
-            
-            // Setup dark background overlay surround scanView
-            self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            self.bottomOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            self.leftOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            self.rightOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
-            self.topOverLay.clipsToBounds = true
-            self.bottomOverlay.clipsToBounds = true
-            self.leftOverlay.clipsToBounds = true
-            self.rightOverlay.clipsToBounds = true
-            view.bringSubview(toFront: topOverLay)
-            view.bringSubview(toFront: bottomOverlay)
-            view.bringSubview(toFront: leftOverlay)
-            view.bringSubview(toFront: rightOverlay)
-            
-            // Set up scan zone, move the scanView and messageLabel to the front.
-            scanView.backgroundColor = .clear
-            scanView.clipsToBounds = true
-            scanView.translatesAutoresizingMaskIntoConstraints = false
-            
-            view.bringSubview(toFront: scanView)
-            
-            // Setup QRCodeFrameView
-            setupQRCodeFrameView()
-            
-            // Start video capture.
-            captureSession?.startRunning()
-            
-            let blur = UIBlurEffect(style: .regular)
-            blurView = UIVisualEffectView(effect: blur)
-            blurView.frame = self.view.bounds
-            blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-            self.view.addSubview(blurView)
-            self.view.addSubview(self.priorScanOverlay)
-//            self.view.addSubview(startButton)
-        }
-        catch {
-            print(error)
-            return
-        }
+//        do {
+//            // Get an instance of the AVCaptureDeviceInput using the previous device object.
+//            let input = try AVCaptureDeviceInput(device: captureDevice!)
+//
+//            // Initialize the captureSession object.
+//            captureSession = AVCaptureSession()
+//
+//            captureSession?.addInput(input)
+//
+//            // Initialize the video preview layer and add it as a sublayer to the viewPreview view's layer.
+//            videoPreviewLayer = AVCaptureVideoPreviewLayer(session: captureSession!)
+//            videoPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
+//            videoPreviewLayer?.frame = view.layer.bounds
+//            view.layer.addSublayer(videoPreviewLayer!)
+//
+//            // Setup dark background overlay surround scanView
+//            self.topOverLay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//            self.bottomOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//            self.leftOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//            self.rightOverlay.backgroundColor = UIColor.black.withAlphaComponent(0.6)
+//            self.topOverLay.clipsToBounds = true
+//            self.bottomOverlay.clipsToBounds = true
+//            self.leftOverlay.clipsToBounds = true
+//            self.rightOverlay.clipsToBounds = true
+//            view.bringSubview(toFront: topOverLay)
+//            view.bringSubview(toFront: bottomOverlay)
+//            view.bringSubview(toFront: leftOverlay)
+//            view.bringSubview(toFront: rightOverlay)
+//
+//            // Set up scan zone, move the scanView and messageLabel to the front.
+//            scanView.backgroundColor = .clear
+//            scanView.clipsToBounds = true
+//            scanView.translatesAutoresizingMaskIntoConstraints = false
+//
+//            view.bringSubview(toFront: scanView)
+//
+//            // Setup QRCodeFrameView
+//            setupQRCodeFrameView()
+//
+//            // Start video capture.
+//            captureSession?.startRunning()
+//
+//            let blur = UIBlurEffect(style: .regular)
+//            blurView = UIVisualEffectView(effect: blur)
+//            blurView.frame = self.view.bounds
+//            blurView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+//            self.view.addSubview(blurView)
+//            self.view.addSubview(self.priorScanOverlay)
+////            self.view.addSubview(startButton)
+//        }
+//        catch {
+//            print(error)
+//            return
+//        }
     }
     
     // Prepare qrCodeFrameView for a new scan.
@@ -190,28 +190,28 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
 
             let wifiParams = wifiText.components(separatedBy: delimiters)
             let ssid = wifiParams[0], password = wifiParams[1]
-            let WiFiConfig = NEHotspotConfiguration(ssid: ssid, passphrase: password, isWEP: false)
+//            let WiFiConfig = NEHotspotConfiguration(ssid: ssid, passphrase: password, isWEP: false)
             
-            WiFiConfig.joinOnce = false
+//            WiFiConfig.joinOnce = false
             
-            NEHotspotConfigurationManager.shared.apply(WiFiConfig) { error in
-                
-//                self.resetCaptureSession()
-                
-                let alertview = JSSAlertView().show(self,
-                                                    title: "Invalid QR",
-                                                    text: error?.localizedDescription,
-                                                    buttonText: "OK",
-                                                    color: UIColorFromHex(0xCE0D31, alpha: 1))
-                alertview.addAction(self.closeCallback)
-                alertview.setTitleFont("NunitoSans-SemiBold")
-                alertview.setTextFont("NunitoSans-Regular")
-                alertview.setButtonFont("NunitoSans-SemiBold")
-                alertview.setTextTheme(.light)
-                
-//                print ("Error in NEHotspotConfigurationManager: \(error?.localizedDescription as Any)")
-                
-            }
+//            NEHotspotConfigurationManager.shared.apply(WiFiConfig) { error in
+//
+////                self.resetCaptureSession()
+//
+//                let alertview = JSSAlertView().show(self,
+//                                                    title: "Invalid QR",
+//                                                    text: error?.localizedDescription,
+//                                                    buttonText: "OK",
+//                                                    color: UIColorFromHex(0xCE0D31, alpha: 1))
+//                alertview.addAction(self.closeCallback)
+//                alertview.setTitleFont("NunitoSans-SemiBold")
+//                alertview.setTextFont("NunitoSans-Regular")
+//                alertview.setButtonFont("NunitoSans-SemiBold")
+//                alertview.setTextTheme(.light)
+//
+////                print ("Error in NEHotspotConfigurationManager: \(error?.localizedDescription as Any)")
+//
+//            }
         }
     }
     

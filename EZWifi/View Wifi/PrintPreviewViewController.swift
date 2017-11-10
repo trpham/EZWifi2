@@ -44,6 +44,10 @@ class PrintPreviewViewController: UIViewController, WKNavigationDelegate, UIScro
         }
     }
   
+    @IBAction func closeButtonTapped(_ sender: Any) {
+        self.performSegue(withIdentifier: "unwindPreviewPageToWifiPage", sender: nil)
+    }
+    
     @IBAction func shareButtonTapped(_ sender: UIButton) {
         
         generatePDF()
