@@ -10,6 +10,9 @@ import UIKit
 import FirebaseAuth
 import FirebaseDatabase
 import UPCarouselFlowLayout
+import JSSAlertView
+import NotificationBannerSwift
+
 
 class WifiViewController: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate,
     LogInViewControllerDelegate, QRGeneratorViewControllerDelegate {
@@ -22,6 +25,7 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     var wifi: Wifi!
     var currentUser: CurrentUser!
     let codeGenerator = FCBBarCodeGenerator()
+    var networkConnected: Bool!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -53,6 +57,23 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let connectedRef = Database.database().reference(withPath: ".info/connected")
+        connectedRef.observe(.value, with: { snapshot in
+            if let value = snapshot.value as? Bool {
+                if value == true {
+                    print("connected")
+                    self.networkConnected = true
+                } else {
+                    print("not connected")
+                    self.networkConnected = false
+                }
+            }
+        })
+    }
+    
     // Unwind segue
     @IBAction func unwindToWifiPage(segue: UIStoryboardSegue) {}
     
@@ -74,13 +95,14 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
             }
         }
         else if signInAndSignOutButton.title == "Sign Out" {
+        
             try! Auth.auth().signOut()
             
             if (Auth.auth().currentUser == nil) {
-                currentUser = CurrentUser()
+                self.currentUser = CurrentUser()
                 self.collectionView.reloadData()
                 self.emptyListOverlayView.isHidden = (self.currentUser.wifiList.count != 0)
-                signInAndSignOutButton.title = "Sign In"
+                self.signInAndSignOutButton.title = "Sign In"
             }
         }
     }
@@ -96,13 +118,23 @@ class WifiViewController: UIViewController, UICollectionViewDataSource, UICollec
     
     // Either present Log In or Add Wifi page.
     @IBAction func addButtonTapped(_ sender: Any) {
-        if (Auth.auth().currentUser == nil) {
-            performSegue(withIdentifier: "segueToLogInView", sender: nil)
-            updateData()
+
+        if self.networkConnected {
+            
+            print("Add: connected")
+            if (Auth.auth().currentUser == nil) {
+                self.performSegue(withIdentifier: "segueToLogInView", sender: nil)
+                self.updateData()
+            }
+            else {
+                self.wifi = nil
+                self.performSegue(withIdentifier: "toAddWifiView", sender: nil)
+            }
         }
         else {
-            self.wifi = nil
-            performSegue(withIdentifier: "toAddWifiView", sender: nil)
+            print("Add: NOT connected")
+               let banner = StatusBarNotificationBanner(title: "Couldn't connect to the server. Please check that.", style: .warning)
+               banner.show(on: self)
         }
     }
     

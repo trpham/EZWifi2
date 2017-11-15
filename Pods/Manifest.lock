@@ -64,13 +64,19 @@ PODS:
   - HxColor (4.0.0)
   - JSSAlertView (4.0.0)
   - leveldb-library (1.18.3)
+  - MarqueeLabel/Swift (3.1.3)
   - nanopb (0.3.8):
     - nanopb/decode (= 0.3.8)
     - nanopb/encode (= 0.3.8)
   - nanopb/decode (0.3.8)
   - nanopb/encode (0.3.8)
+  - NotificationBannerSwift (1.5.1):
+    - MarqueeLabel/Swift
+    - SnapKit (~> 4.0)
   - PDFGenerator (2.1)
   - RNCryptor (5.0.1)
+  - SnapKit (4.0.0)
+  - SVProgressHUD (2.2.2)
   - SwiftHash (2.0.1)
   - UPCarouselFlowLayout (1.1.1)
 
@@ -86,8 +92,10 @@ DEPENDENCIES:
   - GoogleSignIn (~> 4.0.1)
   - HxColor (~> 4.0)
   - JSSAlertView
+  - NotificationBannerSwift
   - PDFGenerator (~> 2.1)
   - RNCryptor (~> 5.0)
+  - SVProgressHUD
   - SwiftHash (from `https://github.com/onmyway133/SwiftHash`)
   - UPCarouselFlowLayout
 
@@ -120,12 +128,16 @@ SPEC CHECKSUMS:
   HxColor: b745c3bf80d24de593a5dc9121a98850db4f7f26
   JSSAlertView: 118a2b17cae7561b514cf74c4b794baea9afd196
   leveldb-library: 10fb39c39e243db4af1828441162405bbcec1404
+  MarqueeLabel: baa5753dcbd36dca080e1f5c589a665aa5c906f1
   nanopb: 5601e6bca2dbf1ed831b519092ec110f66982ca3
+  NotificationBannerSwift: 666e6c392238561c17a52db4c50e6f00d9942e0d
   PDFGenerator: 4fd5db4972465679f4846a9a36d53e8826536a6d
   RNCryptor: 2e352a488779d1a9184ab629be22a7c5bc84acb5
+  SnapKit: a42d492c16e80209130a3379f73596c3454b7694
+  SVProgressHUD: 59b2d3dabacbd051576d21d32293ca7228dc18b0
   SwiftHash: 62691a0d6b09b958d21ab1ea0014b83d56f58e8f
   UPCarouselFlowLayout: 02045c1505d63057fba3d9975be880a8d16bf17d
 
-PODFILE CHECKSUM: 0de22f7c5d3ee81a14372cbbac625c054e7ef80e
+PODFILE CHECKSUM: 45a421e0a04493921b422d7814a929972dca8e01
 
 COCOAPODS: 1.3.1

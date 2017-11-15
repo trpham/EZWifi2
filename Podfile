@@ -22,6 +22,12 @@ target 'EZWifi' do
   pod 'FBSDKShareKit', '~> 4.24.0'
   pod "CenteredCollectionView"
   pod "UPCarouselFlowLayout"
+  pod 'NotificationBannerSwift'
+  pod 'SVProgressHUD'
+
+
+
+
 
 
 

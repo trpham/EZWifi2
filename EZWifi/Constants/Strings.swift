@@ -8,6 +8,7 @@
 //
 
 import Foundation
+import FirebaseDatabase
 
 let segueLogInToWifiPage = "logInToWifiPage"
 let segueSignUpToWifiPage = "signUpToWifiPage"
@@ -17,3 +18,5 @@ let firUsernameNode = "username"
 let firSSIDNode = "ssid"
 let firPasswordNode = "password"
 let firHashNode = "hash"
+
+let connectedRef = Database.database().reference(withPath: ".info/connected")

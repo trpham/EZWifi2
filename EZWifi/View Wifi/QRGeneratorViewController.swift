@@ -11,6 +11,10 @@ import SwiftHash
 import FirebaseAuth
 import HxColor
 import JSSAlertView
+import StoreKit
+import NotificationBannerSwift
+import FirebaseDatabase
+
 
 protocol QRGeneratorViewControllerDelegate {
     func needUpdateData(_ controller: QRGeneratorViewController)
@@ -21,11 +25,10 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     @IBOutlet weak var SSIDTextField: UITextField!
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var generateQRButton: UIButton!
+    @IBOutlet weak var closeEditButton: UIButton!
     
     @IBOutlet weak var ssidLabel: UILabel!
-    
     @IBOutlet weak var passwordButton: UIButton!
-//    @IBOutlet weak var passwordLabel: UILabel!
     var passwordString: String!
     
     @IBOutlet weak var QRCodeImageView: UIImageView!
@@ -53,6 +56,8 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     // Check if this is in wifi view mode
     var isViewMode: Bool!
     
+    var networkConnected: Bool!
+    
     let codeGenerator = FCBBarCodeGenerator()
     
     func enable(button: UIButton, status: Bool) {
@@ -71,11 +76,12 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         self.passwordTextField.delegate = self
         self.scrollView.delegate = self
         
-        self.enable(button: self.generateQRButton, status: false)
+        self.generateQRButton.backgroundColor = UIColor.lightGray
         
         self.wifiInputViewZeroHeight = NSLayoutConstraint(item: self.wifiInputView, attribute: NSLayoutAttribute.height, relatedBy: NSLayoutRelation.equal, toItem: nil, attribute: .notAnAttribute, multiplier: 0, constant: 0)
         
         if (isViewMode) {
+            // View Mode
             self.QRView.isHidden = false
             self.downloadView.isHidden = false
             self.deleteView.isHidden = false
@@ -88,16 +94,35 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             self.ssidLabel.text = wifi.ssid
             self.passwordString = wifi.password
             
+            self.closeEditButton.isHidden = true
+            self.generateQRButton.setTitle("Create Code", for: .normal)
+            
             let QRSize = CGSize(width: 500, height: 500)
             let QRImage = codeGenerator.barcode(code: wifi.hashKey, type: .qrcode, size: QRSize)
             self.QRCodeImageView.image = QRImage
         }
         else {
+            // Add Code mode
+            
+            // Hide the QR View
             self.QRView.isHidden = true
             self.downloadView.isHidden = true
             self.deleteView.isHidden = true
             self.scrollView.isScrollEnabled = false
+            
+            // At first, hide the edit button
+            // Show edit button, only neccessary in case of add.
+            if self.navigationItem.rightBarButtonItem != nil {
+                self.navigationItem.rightBarButtonItem?.isEnabled = false
+                self.navigationItem.rightBarButtonItem?.tintColor = .clear
+            }
+            
+            // Show the text inputs. These are shared by both edit and add.
             NSLayoutConstraint.deactivate([wifiInputViewZeroHeight])
+            
+            // Hide the cancel-edit button, this is for when edit only.
+            self.closeEditButton.isHidden = true
+            self.generateQRButton.setTitle("Create Code", for: .normal)
         }
         
         // Set dismiss keyboard on tapping
@@ -108,6 +133,23 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         // To Enable/Disable Generate QR Button
         self.SSIDTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
         self.passwordTextField.addTarget(self, action: #selector(textFieldsIsNotEmpty), for: .editingChanged)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let connectedRef = Database.database().reference(withPath: ".info/connected")
+        connectedRef.observe(.value, with: { snapshot in
+            if let value = snapshot.value as? Bool {
+                if value == true {
+                    print("connected")
+                    self.networkConnected = true
+                } else {
+                    print("not connected")
+                    self.networkConnected = false
+                }
+            }
+        })
     }
     
     @IBAction func showPassword(_ sender: UIButton) {
@@ -136,11 +178,17 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             else
         {
             self.generateQRButton.isEnabled = false
-            self.generateQRButton.backgroundColor = UIColor.lightGray
+            UIView.animate(withDuration: 0.5, animations: {
+                self.generateQRButton.backgroundColor = UIColor.lightGray
+            })
             return
         }
+        
+        UIView.animate(withDuration: 0.5, animations: {
+            self.generateQRButton.backgroundColor = UIColor(0x007AFF)
+        })
+        
         self.generateQRButton.isEnabled = true
-        self.generateQRButton.backgroundColor = UIColor(0x007AFF)
     }
     
 
@@ -170,6 +218,12 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
             self.currentUser.addWifi(ssid: ssid, password: password, hash: wifiHash)
         }
         
+        // Show edit button, only neccessary in case of add.
+        if (self.navigationItem.rightBarButtonItem != nil) && !(self.navigationItem.rightBarButtonItem?.isEnabled)! {
+            self.navigationItem.rightBarButtonItem?.isEnabled = true
+            self.navigationItem.rightBarButtonItem?.tintColor = UIColor(0x007AFF)
+        }
+        
         self.updateCurrentWifiWith(ssid: ssid, password: password, hash: wifiHash)
         
         self.delegate?.needUpdateData(self)
@@ -194,12 +248,37 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
         return copiedImage!
     }
     
-    @IBAction func doneButtonTapped(_ sender: Any) {
+    @IBAction func closeButtonTapped(_ sender: Any) {
         self.performSegue(withIdentifier: "unwindToWifi", sender: self)
+        
+        // Add rate and review option
+        if #available(iOS 11.0, *) {
+            if !self.isViewMode && self.wifi != nil {
+                SKStoreReviewController.requestReview()
+            }
+        }
+    }
+    
+    @IBAction func cancelEditTapped(_ sender: Any) {
+         NSLayoutConstraint.activate([self.wifiInputViewZeroHeight])
     }
     
     @IBAction func editButtonTapped(_ sender: Any) {
-        NSLayoutConstraint.deactivate([self.wifiInputViewZeroHeight])
+        
+        if self.networkConnected {
+            print("Add: connected")
+            self.closeEditButton.isHidden = false
+            self.SSIDTextField.text = self.wifi.ssid
+            self.passwordTextField.text = self.wifi.password
+            self.generateQRButton.setTitle("Update Code", for: .normal)
+            NSLayoutConstraint.deactivate([self.wifiInputViewZeroHeight])
+        }
+        else {
+            print("Add: NOT connected")
+            let banner = StatusBarNotificationBanner(title: "Couldn't connect to the server. Please check that.", style: .warning)
+            banner.show(on: self)
+        }
+   
     }
     
     // Download QR code image using UIActivityViewController
@@ -228,18 +307,24 @@ class QRGeneratorViewController: UIViewController, UITextFieldDelegate, UIScroll
     }
     
     @IBAction func deleteButtonTapped(_ sender: UIButton) {
-        
-        let alertview = JSSAlertView().show(self,
-                                            title: "Delete",
-                                            text: "Are you sure you want to delete?",
-                                            buttonText: "Yes",
-                                            cancelButtonText: "No",
-                                            color: UIColorFromHex(0xCE0D31, alpha: 1))
-        alertview.addAction(closeCallback)
-        alertview.setTitleFont("NunitoSans-SemiBold")
-        alertview.setTextFont("NunitoSans-Regular")
-        alertview.setButtonFont("NunitoSans-SemiBold")
-        alertview.setTextTheme(.light)
+        if self.networkConnected {
+            let alertview = JSSAlertView().show(self,
+                                                title: "Delete",
+                                                text: "Are you sure you want to delete?",
+                                                buttonText: "Yes",
+                                                cancelButtonText: "No",
+                                                color: UIColorFromHex(0xCE0D31, alpha: 1))
+            alertview.addAction(self.closeCallback)
+            alertview.setTitleFont("NunitoSans-SemiBold")
+            alertview.setTextFont("NunitoSans-Regular")
+            alertview.setButtonFont("NunitoSans-SemiBold")
+            alertview.setTextTheme(.light)
+        }
+        else {
+            print("Add: NOT connected")
+            let banner = StatusBarNotificationBanner(title: "Couldn't connect to the server. Please check that.", style: .warning)
+            banner.show(on: self)
+        }
     }
     
     func closeCallback() {
