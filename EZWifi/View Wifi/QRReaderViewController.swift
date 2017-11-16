@@ -193,11 +193,11 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
             let wifiParams = wifiText.components(separatedBy: delimiters)
             let ssid = wifiParams[0], password = wifiParams[1]
             
-            
             let WiFiConfig = NEHotspotConfiguration(ssid: ssid, passphrase: password, isWEP: false)
             
             WiFiConfig.joinOnce = false
             
+        
             NEHotspotConfigurationManager.shared.apply(WiFiConfig) { error in
                 
                 DispatchQueue.global().async {
@@ -215,18 +215,25 @@ class QRReaderViewController: UIViewController, AVCaptureMetadataOutputObjectsDe
                     alertview.setTextFont("NunitoSans-Regular")
                     alertview.setButtonFont("NunitoSans-SemiBold")
                     alertview.setTextTheme(.light)
-                } else {
-                    let alertview = JSSAlertView().show(self,
-                                                        title: "Success!",
-                                                        text: "WiFi was succesfully connected.",
-                                                        buttonText: "Done",
-                                                        color: UIColorFromHex(0x31A343, alpha: 1))
-                    alertview.addAction(self.successCallback)
-                    alertview.setTitleFont("NunitoSans-SemiBold")
-                    alertview.setTextFont("NunitoSans-Regular")
-                    alertview.setButtonFont("NunitoSans-SemiBold")
-                    alertview.setTextTheme(.light)
                 }
+                
+                else {
+                    self.resetCaptureSession()
+                    self.blurView.isHidden = false
+                    self.priorScanOverlay.isHidden = false
+//                else {
+//                    let alertview = JSSAlertView().show(self,
+//                                                        title: "Success!",
+//                                                        text: "WiFi was succesfully connected.",
+//                                                        buttonText: "Done",
+//                                                        color: UIColorFromHex(0x31A343, alpha: 1))
+//                    alertview.addAction(self.successCallback)
+//                    alertview.setTitleFont("NunitoSans-SemiBold")
+//                    alertview.setTextFont("NunitoSans-Regular")
+//                    alertview.setButtonFont("NunitoSans-SemiBold")
+//                    alertview.setTextTheme(.light)
+                }
+//                }
             }
         }
     }
